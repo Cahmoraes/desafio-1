@@ -1,4 +1,4 @@
-import { EmailRequiredError } from './errors/email-requided.error'
+import { RequiredFieldError } from './errors/required-field.error'
 import { Parent, ParentProps } from './parent.entity'
 import { Address } from './value-objects/address'
 import { Cpf } from './value-objects/cpf'
@@ -37,7 +37,7 @@ describe('Parent Entity', () => {
   test('Deve gerar um erro ao tentar criar um Parent sem e-mail', () => {
     const cloneDummyParent: ParentProps = { ...dummyParent, emails: [] }
     expect(() => Parent.create(cloneDummyParent)).toThrowError(
-      EmailRequiredError,
+      'Must be at least one email',
     )
   })
 })

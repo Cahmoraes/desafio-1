@@ -5,7 +5,7 @@ import { Email } from './value-objects/email'
 import { Address } from './value-objects/address'
 import { Cpf } from './value-objects/cpf'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
-import { EmailRequiredError } from './errors/email-requided.error'
+import { RequiredFieldError } from './errors/required-field.error'
 
 export interface ParentProps {
   name: string
@@ -46,7 +46,8 @@ export class Parent extends DomainEntity<CreateParentProps> {
 
   private static validate(props: ParentProps): void {
     const { emails } = props
-    if (!emails.length) throw new EmailRequiredError()
+    if (!emails.length)
+      throw new RequiredFieldError('Must be at least one email')
   }
 
   get name(): string {
