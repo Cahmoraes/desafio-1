@@ -1,4 +1,5 @@
 import { Parent, ParentProps } from './parent.entity'
+import { Address } from './value-objects/address'
 import { Email } from './value-objects/email'
 
 describe('Parent Entity', () => {
@@ -21,7 +22,9 @@ describe('Parent Entity', () => {
     expect(parent.emails).toBeInstanceOf(Array)
     expect(parent.emails[0]).toBeInstanceOf(Email)
     expect(parent.emails[0].toString()).toEqual('any_email')
-    expect(parent.address).toEqual(['any_address'])
+    expect(parent.address).toBeInstanceOf(Array)
+    expect(parent.address[0]).toBeInstanceOf(Address)
+    expect(parent.address[0].toString()).toEqual('any_address')
     expect(parent.cpf).toBe('any_cpf')
   })
 })
