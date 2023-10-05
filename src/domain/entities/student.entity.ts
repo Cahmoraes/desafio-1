@@ -5,6 +5,7 @@ import { Bloody } from './value-objects/blood'
 import { BloodType } from '@/core/enums/blood-types.enum'
 import { Allergy } from './value-objects/allergy'
 import { Medication } from './value-objects/medication'
+import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 
 export interface StudentProps {
   firstName: string
@@ -30,17 +31,23 @@ type CreateStudentProps = Pick<
 }
 
 export class Student extends DomainEntity<CreateStudentProps> {
-  public static create(props: StudentProps): Student {
+  public static create(
+    props: StudentProps,
+    anIdOrString?: UniqueEntityId | string,
+  ): Student {
     const { firstName, lastName, cpf, blood, allergies, medication, ...rest } =
       props
-    return new Student({
-      ...rest,
-      name: Name.create(firstName, lastName),
-      cpf: Cpf.create(cpf),
-      blood: Bloody.create(blood),
-      allergies: allergies.map(Allergy.create),
-      medication: medication.map(Medication.create),
-    })
+    return new Student(
+      {
+        ...rest,
+        name: Name.create(firstName, lastName),
+        cpf: Cpf.create(cpf),
+        blood: Bloody.create(blood),
+        allergies: allergies.map(Allergy.create),
+        medication: medication.map(Medication.create),
+      },
+      new UniqueEntityId(anIdOrString),
+    )
   }
 
   get fullName(): string {

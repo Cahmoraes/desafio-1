@@ -7,8 +7,8 @@ export class Cpf implements ValueObject {
     this._value = aString
   }
 
-  public static create(sString: string): Cpf {
-    return new Cpf(sString)
+  public static create(aString: string): Cpf {
+    return new Cpf(aString)
   }
 
   public equals(other: object): boolean {

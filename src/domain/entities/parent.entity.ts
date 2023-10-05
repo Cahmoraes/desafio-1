@@ -4,6 +4,7 @@ import { Phone } from './value-objects/phone'
 import { Email } from './value-objects/email'
 import { Address } from './value-objects/address'
 import { Cpf } from './value-objects/cpf'
+import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 
 export interface ParentProps {
   name: string
@@ -23,14 +24,20 @@ type CreateParentProps = {
 }
 
 export class Parent extends DomainEntity<CreateParentProps> {
-  public static create(props: ParentProps) {
-    return new Parent({
-      name: Name.create(props.name, props.lastName),
-      phones: props.phones.map(Phone.create),
-      emails: props.emails.map(Email.create),
-      address: props.address.map(Address.create),
-      cpf: Cpf.create(props.cpf),
-    })
+  public static create(
+    props: ParentProps,
+    anIdOrString?: UniqueEntityId | string,
+  ) {
+    return new Parent(
+      {
+        name: Name.create(props.name, props.lastName),
+        phones: props.phones.map(Phone.create),
+        emails: props.emails.map(Email.create),
+        address: props.address.map(Address.create),
+        cpf: Cpf.create(props.cpf),
+      },
+      new UniqueEntityId(anIdOrString),
+    )
   }
 
   get name(): string {
