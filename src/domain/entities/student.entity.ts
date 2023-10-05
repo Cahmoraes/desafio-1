@@ -6,12 +6,13 @@ import { BloodType } from '@/core/enums/blood-types.enum'
 import { Allergy } from './value-objects/allergy'
 import { Medication } from './value-objects/medication'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
+import { Parent } from './parent.entity'
 
 export interface StudentProps {
   firstName: string
   lastName: string
   birthDay: Date
-  parentId: string
+  parentsId: string[]
   allergies: string[]
   blood: BloodType
   medication: string[]
@@ -21,7 +22,7 @@ export interface StudentProps {
 
 type CreateStudentProps = Pick<
   StudentProps,
-  'birthDay' | 'registrationDate' | 'parentId'
+  'birthDay' | 'registrationDate' | 'parentsId'
 > & {
   name: Name
   cpf: Cpf
@@ -74,8 +75,8 @@ export class Student extends DomainEntity<CreateStudentProps> {
     return this.props.medication
   }
 
-  get parentId(): string {
-    return this.props.parentId
+  get parentsId(): string[] {
+    return this.props.parentsId
   }
 
   get birthDay(): Date {

@@ -12,7 +12,7 @@ describe('Student Entity', () => {
     blood: 'A+',
     birthDay: new Date(),
     medication: ['any_medication'],
-    parentId: 'any_parent-id',
+    parentsId: ['any_parent-id'],
     registrationDate: new Date(),
     cpf: 'any_cpf',
   }
@@ -34,7 +34,7 @@ describe('Student Entity', () => {
     )
     expect(student.registrationDate).toEqual(dummyStudent.registrationDate)
     expect(student.cpf).toEqual(Cpf.create(dummyStudent.cpf).toString())
-    expect(student.parentId).toEqual(dummyStudent.parentId)
+    expect(student.parentsId).toEqual(dummyStudent.parentsId)
     expect(student.birthDay).toEqual(dummyStudent.birthDay)
   })
 })
