@@ -15,12 +15,11 @@ describe('Student Entity', () => {
     medication: ['any_medication'],
     registrationDate: new Date(),
     cpf: 'any_cpf',
+    parentId: 'any_parent-id',
   }
-  const dummyParentId = 'any_parent-id'
 
   test('Deve criar um Student', () => {
     const student = Student.create(dummyStudent)
-    student.addParent(dummyParentId)
     expect(student).toBeInstanceOf(Student)
     expect(student.fullName).toEqual(
       Name.create(dummyStudent.firstName, dummyStudent.lastName).fullName,
@@ -36,7 +35,7 @@ describe('Student Entity', () => {
     )
     expect(student.registrationDate).toEqual(dummyStudent.registrationDate)
     expect(student.cpf).toEqual(Cpf.create(dummyStudent.cpf).toString())
-    expect(student.parentsId).toEqual([dummyParentId])
+    expect(student.parentId).toEqual(dummyStudent.parentId)
     expect(student.birthDay).toEqual(dummyStudent.birthDay)
   })
 

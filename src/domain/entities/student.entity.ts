@@ -16,6 +16,7 @@ export interface StudentProps {
   blood: BloodType
   medication: string[]
   registrationDate: Date
+  parentId: string
   cpf: string
 }
 
@@ -26,13 +27,12 @@ type CreateStudentProps = Pick<
   name: Name
   cpf: Cpf
   blood: Bloody
+  parentId: string
   allergies: Allergy[]
   medication: Medication[]
 }
 
 export class Student extends DomainEntity<CreateStudentProps> {
-  private _parentsId: string[] = []
-
   public static create(
     props: StudentProps,
     anIdOrString?: UniqueEntityId | string,
@@ -72,12 +72,6 @@ export class Student extends DomainEntity<CreateStudentProps> {
     if (!props.blood) {
       throw new RequiredFieldError('blood is required')
     }
-    if (!props.registrationDate) {
-      throw new RequiredFieldError('registrationDate is required')
-    }
-    if (!props.cpf) {
-      throw new RequiredFieldError('cpf is required')
-    }
   }
 
   get fullName(): string {
@@ -104,12 +98,8 @@ export class Student extends DomainEntity<CreateStudentProps> {
     return this.props.medication
   }
 
-  get parentsId(): string[] {
-    return this._parentsId
-  }
-
-  public addParent(aString: string): void {
-    this._parentsId.push(aString)
+  get parentId(): string {
+    return this.props.parentId
   }
 
   get birthDay(): Date {
