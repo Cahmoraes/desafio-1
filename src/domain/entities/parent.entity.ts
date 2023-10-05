@@ -14,10 +14,7 @@ export interface ParentProps {
   cpf: string
 }
 
-type CreateParentProps = Omit<
-  ParentProps,
-  'name' | 'lastName' | 'phones' | 'emails' | 'address' | 'cpf'
-> & {
+type CreateParentProps = {
   name: Name
   phones: Phone[]
   emails: Email[]
@@ -27,14 +24,12 @@ type CreateParentProps = Omit<
 
 export class Parent extends DomainEntity<CreateParentProps> {
   public static create(props: ParentProps) {
-    const { name, lastName, phones, emails, address, cpf, ...rest } = props
     return new Parent({
-      ...rest,
-      name: Name.create(name, lastName),
-      phones: phones.map(Phone.create),
-      emails: emails.map(Email.create),
-      address: address.map(Address.create),
-      cpf: Cpf.create(cpf),
+      name: Name.create(props.name, props.lastName),
+      phones: props.phones.map(Phone.create),
+      emails: props.emails.map(Email.create),
+      address: props.address.map(Address.create),
+      cpf: Cpf.create(props.cpf),
     })
   }
 
