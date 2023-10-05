@@ -6,7 +6,6 @@ import { BloodType } from '@/core/enums/blood-types.enum'
 import { Allergy } from './value-objects/allergy'
 import { Medication } from './value-objects/medication'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
-import { Parent } from './parent.entity'
 
 export interface StudentProps {
   firstName: string
