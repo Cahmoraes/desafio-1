@@ -1,6 +1,5 @@
 import { DomainEntity } from '@/core/entities/domain-entity.entity'
 import { ClassRoomCode } from './value-objects/classroom-code'
-import { RequiredFieldError } from './errors/required-field.error'
 import { ClassRoomValidatorFactory } from '../validators/classroom/class-validator-factory'
 
 export interface ClassRoomProps {
