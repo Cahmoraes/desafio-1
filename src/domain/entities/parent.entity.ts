@@ -24,6 +24,8 @@ type CreateParentProps = {
 }
 
 export class Parent extends DomainEntity<CreateParentProps> {
+  private _studentIds: string[] = []
+
   public static create(
     props: ParentProps,
     anIdOrString?: UniqueEntityId | string,
@@ -66,5 +68,13 @@ export class Parent extends DomainEntity<CreateParentProps> {
 
   get cpf(): Cpf {
     return this.props.cpf
+  }
+
+  get studentIds(): string[] {
+    return this._studentIds
+  }
+
+  public addStudent(aString: string): void {
+    this._studentIds.push(aString)
   }
 }

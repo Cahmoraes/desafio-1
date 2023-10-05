@@ -12,9 +12,11 @@ describe('Parent Entity', () => {
     address: ['any_address'],
     cpf: 'any_cpf',
   }
+  const dummyStudentIds = 'any_student_id'
 
   test('Deve criar um Parent', () => {
     const parent = Parent.create(dummyParent)
+    parent.addStudent(dummyStudentIds)
     expect(parent).toBeInstanceOf(Parent)
     expect(parent.name).toBe('any_name')
     expect(parent.lastName).toBe('any_sobrenome')
@@ -28,5 +30,6 @@ describe('Parent Entity', () => {
     expect(parent.address[0].toString()).toEqual('any_address')
     expect(parent.cpf).toBeInstanceOf(Cpf)
     expect(parent.cpf.toString()).toBe('any_cpf')
+    expect(parent.studentIds).toEqual([dummyStudentIds])
   })
 })
