@@ -49,6 +49,10 @@ export class Parent extends DomainEntity<CreateParentProps> {
       throw new RequiredFieldError('Must be at least one email')
     if (!props.address.length)
       throw new RequiredFieldError('Must be at least one address')
+    if (!props.cpf.toString().length)
+      throw new RequiredFieldError('Must be at least one cpf')
+    if (!props.phones.length)
+      throw new RequiredFieldError('Must be at least one phone')
   }
 
   get name(): string {

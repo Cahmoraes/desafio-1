@@ -46,4 +46,18 @@ describe('Parent Entity', () => {
       'Must be at least one address',
     )
   })
+
+  test('Deve gerar um erro ao tentar cria um parent sem cpf', () => {
+    const cloneDummyParent: ParentProps = { ...dummyParent, cpf: '' }
+    expect(() => Parent.create(cloneDummyParent)).toThrowError(
+      'Must be at least one cpf',
+    )
+  })
+
+  test('Deve gerar um erro ao tentar cria um parent sem telefone', () => {
+    const cloneDummyParent: ParentProps = { ...dummyParent, phones: [] }
+    expect(() => Parent.create(cloneDummyParent)).toThrowError(
+      'Must be at least one phone',
+    )
+  })
 })
