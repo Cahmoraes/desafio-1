@@ -26,5 +26,7 @@ describe('Student Entity', () => {
     expect(student.medication).toEqual(dummyStudent.medication)
     expect(student.registrationDate).toEqual(dummyStudent.registrationDate)
     expect(student.cpf).toEqual(Cpf.create(dummyStudent.cpf).toString())
+    expect(student.parentId).toEqual(dummyStudent.parentId)
+    expect(student.birthDay).toEqual(dummyStudent.birthDay)
   })
 })

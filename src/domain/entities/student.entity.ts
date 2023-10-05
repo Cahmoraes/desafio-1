@@ -1,6 +1,8 @@
 import { DomainEntity } from '@/core/entities/domain-entity.entity'
 import { Name } from './value-objects/name'
 import { Cpf } from './value-objects/cpf'
+import { Bloody } from './value-objects/blood'
+import { BloodType } from '@/core/enums/blood-types.enum'
 
 export interface StudentProps {
   firstName: string
@@ -8,7 +10,7 @@ export interface StudentProps {
   birthDay: Date
   parentId: string
   allergies: string[]
-  blood: string
+  blood: BloodType
   medication: string[]
   registrationDate: Date
   cpf: string
@@ -16,19 +18,21 @@ export interface StudentProps {
 
 type CreateStudentProps = Omit<
   StudentProps,
-  'firstName' | 'lastName' | 'cpf'
+  'firstName' | 'lastName' | 'cpf' | 'blood'
 > & {
   name: Name
   cpf: Cpf
+  blood: Bloody
 }
 
 export class Student extends DomainEntity<CreateStudentProps> {
   public static create(props: StudentProps): Student {
-    const { firstName, lastName, cpf, ...rest } = props
+    const { firstName, lastName, cpf, blood, ...rest } = props
     return new Student({
       ...rest,
       name: Name.create(firstName, lastName),
       cpf: Cpf.create(cpf),
+      blood: Bloody.create(blood),
     })
   }
 
@@ -48,8 +52,8 @@ export class Student extends DomainEntity<CreateStudentProps> {
     return this.props.allergies
   }
 
-  get blood(): string {
-    return this.props.blood
+  get blood(): BloodType {
+    return this.props.blood.type
   }
 
   get medication(): string[] {
