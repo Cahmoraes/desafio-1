@@ -6,6 +6,7 @@ import { BloodType } from '@/core/enums/blood-types.enum'
 import { Allergy } from './value-objects/allergy'
 import { Medication } from './value-objects/medication'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
+import { RequiredFieldError } from './errors/required-field.error'
 
 export interface StudentProps {
   firstName: string
@@ -36,6 +37,7 @@ export class Student extends DomainEntity<CreateStudentProps> {
     props: StudentProps,
     anIdOrString?: UniqueEntityId | string,
   ): Student {
+    this.validate(props)
     const { firstName, lastName, cpf, blood, allergies, medication, ...rest } =
       props
     return new Student(
@@ -49,6 +51,33 @@ export class Student extends DomainEntity<CreateStudentProps> {
       },
       new UniqueEntityId(anIdOrString),
     )
+  }
+
+  private static validate(props: StudentProps): void {
+    if (!props.firstName.length) {
+      throw new RequiredFieldError('firstName is required')
+    }
+    if (!props.lastName.length) {
+      throw new RequiredFieldError('lastName is required')
+    }
+    if (!props.birthDay) {
+      throw new RequiredFieldError('birthDay is required')
+    }
+    if (!props.registrationDate) {
+      throw new RequiredFieldError('registrationDate is required')
+    }
+    if (!props.cpf.toString().length) {
+      throw new RequiredFieldError('cpf is required')
+    }
+    if (!props.blood) {
+      throw new RequiredFieldError('blood is required')
+    }
+    if (!props.registrationDate) {
+      throw new RequiredFieldError('registrationDate is required')
+    }
+    if (!props.cpf) {
+      throw new RequiredFieldError('cpf is required')
+    }
   }
 
   get fullName(): string {
