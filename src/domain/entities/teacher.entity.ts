@@ -4,6 +4,7 @@ import { Cpf } from './value-objects/cpf'
 import { Phone } from './value-objects/phone'
 import { Email } from './value-objects/email'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
+import { Specialization } from './value-objects/specialization'
 
 export interface TeacherProps {
   firstName: string
@@ -16,14 +17,12 @@ export interface TeacherProps {
   specialization: string
 }
 
-type CreateTeacherProps = Pick<
-  TeacherProps,
-  'hiringDate' | 'wage' | 'specialization'
-> & {
+type CreateTeacherProps = Pick<TeacherProps, 'hiringDate' | 'wage'> & {
   name: Name
   cpf: Cpf
   phone: Phone
   email: Email
+  specialization: Specialization
 }
 
 export class Teacher extends DomainEntity<CreateTeacherProps> {
@@ -31,7 +30,8 @@ export class Teacher extends DomainEntity<CreateTeacherProps> {
     props: TeacherProps,
     anIdOrString?: UniqueEntityId | string,
   ): Teacher {
-    const { firstName, lastName, cpf, phone, email, ...rest } = props
+    const { firstName, lastName, cpf, phone, email, specialization, ...rest } =
+      props
     return new Teacher(
       {
         ...rest,
@@ -39,6 +39,7 @@ export class Teacher extends DomainEntity<CreateTeacherProps> {
         cpf: Cpf.create(cpf),
         phone: Phone.create(phone),
         email: Email.create(email),
+        specialization: Specialization.create(specialization),
       },
       new UniqueEntityId(anIdOrString),
     )
@@ -66,5 +67,17 @@ export class Teacher extends DomainEntity<CreateTeacherProps> {
 
   get email(): Email {
     return this.props.email
+  }
+
+  get specialization(): Specialization {
+    return this.props.specialization
+  }
+
+  get hiringDate(): Date {
+    return this.props.hiringDate
+  }
+
+  get wage(): number {
+    return this.props.wage
   }
 }
