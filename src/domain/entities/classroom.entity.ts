@@ -1,6 +1,7 @@
 import { DomainEntity } from '@/core/entities/domain-entity.entity'
 import { ClassRoomCode } from './value-objects/classroom-code'
 import { RequiredFieldError } from './errors/required-field.error'
+import { ClassRoomValidatorFactory } from '../validators/classroom/class-validator-factory'
 
 export interface ClassRoomProps {
   maxStudentsNumber: number
@@ -16,12 +17,7 @@ export class ClassRoom extends DomainEntity<ClassRoomProps> {
   }
 
   private static validate(props: ClassRoomProps): void {
-    if (!props.discipline.length) {
-      throw new RequiredFieldError('discipline is required')
-    }
-    if (!props.duration) {
-      throw new RequiredFieldError('duration must be greater than zero')
-    }
+    ClassRoomValidatorFactory.create().handle(props)
   }
 
   get id(): ClassRoomCode {
