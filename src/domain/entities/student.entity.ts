@@ -18,9 +18,9 @@ export interface StudentProps {
   cpf: string
 }
 
-type CreateStudentProps = Omit<
+type CreateStudentProps = Pick<
   StudentProps,
-  'firstName' | 'lastName' | 'cpf' | 'blood' | 'allergies' | 'medication'
+  'birthDay' | 'registrationDate' | 'parentId'
 > & {
   name: Name
   cpf: Cpf
