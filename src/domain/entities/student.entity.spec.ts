@@ -1,4 +1,5 @@
 import { Student, StudentProps } from './student.entity'
+import { Allergy } from './value-objects/allergy'
 import { Cpf } from './value-objects/cpf'
 import { Name } from './value-objects/name'
 
@@ -21,7 +22,10 @@ describe('Student Entity', () => {
     expect(student.fullName).toEqual(
       Name.create(dummyStudent.firstName, dummyStudent.lastName).fullName,
     )
-    expect(student.allergies).toEqual(dummyStudent.allergies)
+    expect(student.allergies).toBeInstanceOf(Array)
+    expect(student.allergies[0].toString()).toEqual(
+      Allergy.create(dummyStudent.allergies[0]).toString(),
+    )
     expect(student.blood).toEqual(dummyStudent.blood)
     expect(student.medication).toEqual(dummyStudent.medication)
     expect(student.registrationDate).toEqual(dummyStudent.registrationDate)

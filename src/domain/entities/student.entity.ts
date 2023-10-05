@@ -3,6 +3,7 @@ import { Name } from './value-objects/name'
 import { Cpf } from './value-objects/cpf'
 import { Bloody } from './value-objects/blood'
 import { BloodType } from '@/core/enums/blood-types.enum'
+import { Allergy } from './value-objects/allergy'
 
 export interface StudentProps {
   firstName: string
@@ -18,21 +19,23 @@ export interface StudentProps {
 
 type CreateStudentProps = Omit<
   StudentProps,
-  'firstName' | 'lastName' | 'cpf' | 'blood'
+  'firstName' | 'lastName' | 'cpf' | 'blood' | 'allergies'
 > & {
   name: Name
   cpf: Cpf
   blood: Bloody
+  allergies: Allergy[]
 }
 
 export class Student extends DomainEntity<CreateStudentProps> {
   public static create(props: StudentProps): Student {
-    const { firstName, lastName, cpf, blood, ...rest } = props
+    const { firstName, lastName, cpf, blood, allergies, ...rest } = props
     return new Student({
       ...rest,
       name: Name.create(firstName, lastName),
       cpf: Cpf.create(cpf),
       blood: Bloody.create(blood),
+      allergies: allergies.map(Allergy.create),
     })
   }
 
@@ -48,7 +51,7 @@ export class Student extends DomainEntity<CreateStudentProps> {
     return this.props.registrationDate
   }
 
-  get allergies(): string[] {
+  get allergies(): Allergy[] {
     return this.props.allergies
   }
 
