@@ -5,6 +5,7 @@ import { Email } from './value-objects/email'
 import { Address } from './value-objects/address'
 import { Cpf } from './value-objects/cpf'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
+import { EmailRequiredError } from './errors/email-requided.error'
 
 export interface ParentProps {
   name: string
@@ -30,6 +31,7 @@ export class Parent extends DomainEntity<CreateParentProps> {
     props: ParentProps,
     anIdOrString?: UniqueEntityId | string,
   ) {
+    this.validate(props)
     return new Parent(
       {
         name: Name.create(props.name, props.lastName),
@@ -40,6 +42,11 @@ export class Parent extends DomainEntity<CreateParentProps> {
       },
       new UniqueEntityId(anIdOrString),
     )
+  }
+
+  private static validate(props: ParentProps): void {
+    const { emails } = props
+    if (!emails.length) throw new EmailRequiredError()
   }
 
   get name(): string {

@@ -1,3 +1,4 @@
+import { EmailRequiredError } from './errors/email-requided.error'
 import { Parent, ParentProps } from './parent.entity'
 import { Address } from './value-objects/address'
 import { Cpf } from './value-objects/cpf'
@@ -31,5 +32,12 @@ describe('Parent Entity', () => {
     expect(parent.cpf).toBeInstanceOf(Cpf)
     expect(parent.cpf.toString()).toBe('any_cpf')
     expect(parent.studentIds).toEqual([dummyStudentIds])
+  })
+
+  test('Deve gerar um erro ao tentar criar um Parent sem e-mail', () => {
+    const cloneDummyParent: ParentProps = { ...dummyParent, emails: [] }
+    expect(() => Parent.create(cloneDummyParent)).toThrowError(
+      EmailRequiredError,
+    )
   })
 })
