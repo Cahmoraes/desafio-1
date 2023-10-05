@@ -1,6 +1,7 @@
 import { DomainEntity } from '@/core/entities/domain-entity.entity'
 import { Name } from './value-objects/name'
 import { Phone } from './value-objects/phone'
+import { Email } from './value-objects/email'
 
 export interface ParentProps {
   name: string
@@ -11,18 +12,23 @@ export interface ParentProps {
   cpf: string
 }
 
-type CreateParentProps = Omit<ParentProps, 'name' | 'lastName' | 'phones'> & {
+type CreateParentProps = Omit<
+  ParentProps,
+  'name' | 'lastName' | 'phones' | 'emails'
+> & {
   name: Name
   phones: Phone[]
+  emails: Email[]
 }
 
 export class Parent extends DomainEntity<CreateParentProps> {
   public static create(props: ParentProps) {
-    const { name, lastName, phones, ...rest } = props
+    const { name, lastName, phones, emails, ...rest } = props
     return new Parent({
       ...rest,
       name: Name.create(name, lastName),
       phones: phones.map(Phone.create),
+      emails: emails.map(Email.create),
     })
   }
 
@@ -42,7 +48,7 @@ export class Parent extends DomainEntity<CreateParentProps> {
     return this.props.phones.toString()
   }
 
-  get emails(): string[] {
+  get emails(): Email[] {
     return this.props.emails
   }
 
