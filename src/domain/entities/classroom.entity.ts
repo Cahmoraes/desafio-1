@@ -8,14 +8,28 @@ export interface ClassRoomProps {
   duration: number
 }
 
-type CreateClassRoomProps = object
-
-export class ClassRoom extends DomainEntity<CreateClassRoomProps> {
+export class ClassRoom extends DomainEntity<ClassRoomProps> {
   public static create(props: ClassRoomProps): ClassRoom {
     return new ClassRoom(props, ClassRoomCode.create())
   }
 
   get id(): ClassRoomCode {
     return ClassRoomCode.restore(super.id.toString())
+  }
+
+  get maxStudentsNumber(): number {
+    return this.props.maxStudentsNumber
+  }
+
+  get minAge(): number {
+    return this.props.minAge
+  }
+
+  get discipline(): string {
+    return this.props.discipline
+  }
+
+  get duration(): number {
+    return this.props.duration
   }
 }

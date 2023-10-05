@@ -15,10 +15,10 @@ describe('ClassRoom Entity', () => {
     expect(classRoom).toBeInstanceOf(DomainEntity)
     expect(classRoom.id).toBeInstanceOf(ClassRoomCode)
     expect(classRoom.id).toBeInstanceOf(UniqueEntityId)
-    // expect(classRoom.maxStudentsNumber).toBe(1)
-    // expect(classRoom.minAge).toBe(1)
-    // expect(classRoom.discipline).toBe('any_discipline')
-    // expect(classRoom.duration).toBe(1)
+    expect(classRoom.maxStudentsNumber).toBe(1)
+    expect(classRoom.minAge).toBe(1)
+    expect(classRoom.discipline).toBe('any_discipline')
+    expect(classRoom.duration).toBe(1)
   })
 
   test.each([
