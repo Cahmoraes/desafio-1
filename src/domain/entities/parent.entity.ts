@@ -25,7 +25,7 @@ type CreateParentProps = {
 }
 
 export class Parent extends DomainEntity<CreateParentProps> {
-  private _studentIds: string[] = []
+  private readonly _studentIds: string[] = []
 
   public static create(
     props: ParentProps,
