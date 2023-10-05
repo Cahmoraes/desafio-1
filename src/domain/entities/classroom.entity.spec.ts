@@ -1,16 +1,18 @@
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
-import { ClassRoom } from './classroom.entity'
+import { ClassRoom, ClassRoomProps } from './classroom.entity'
 import { ClassRoomCode } from './value-objects/classroom-code'
 import { DomainEntity } from '@/core/entities/domain-entity.entity'
 
 describe('ClassRoom Entity', () => {
+  const dummyClassRoom: ClassRoomProps = {
+    maxStudentsNumber: 1,
+    minAge: 1,
+    discipline: 'any_discipline',
+    duration: 1,
+  }
+
   it('Deve criar uma ClassRoom', () => {
-    const classRoom = ClassRoom.create({
-      maxStudentsNumber: 1,
-      minAge: 1,
-      discipline: 'any_discipline',
-      duration: 1,
-    })
+    const classRoom = ClassRoom.create(dummyClassRoom)
     expect(classRoom).toBeInstanceOf(ClassRoom)
     expect(classRoom).toBeInstanceOf(DomainEntity)
     expect(classRoom.id).toBeInstanceOf(ClassRoomCode)
@@ -43,4 +45,24 @@ describe('ClassRoom Entity', () => {
       expect(isValid).toBeFalsy()
     },
   )
+
+  test('Deve gerar um erro ao criar um ClassRoom sem disciplina', () => {
+    const cloneDummyClassRoom: ClassRoomProps = {
+      ...dummyClassRoom,
+      discipline: '',
+    }
+    expect(() => ClassRoom.create(cloneDummyClassRoom)).toThrow(
+      'discipline is required',
+    )
+  })
+
+  test('Deve gerar um erro ao criar um ClassRoom sem duracao', () => {
+    const cloneDummyClassRoom: ClassRoomProps = {
+      ...dummyClassRoom,
+      duration: 0,
+    }
+    expect(() => ClassRoom.create(cloneDummyClassRoom)).toThrow(
+      'duration must be greater than zero',
+    )
+  })
 })
