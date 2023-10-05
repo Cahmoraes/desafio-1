@@ -7,7 +7,7 @@ describe('Student Entity', () => {
     firstName: 'any_name',
     lastName: 'any_sobrenome',
     allergies: ['any_allergy'],
-    blood: 'any_blood',
+    blood: 'A+',
     birthDay: new Date(),
     medication: ['any_medication'],
     parentId: 'any_parent-id',
