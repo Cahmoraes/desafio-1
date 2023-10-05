@@ -25,7 +25,7 @@ describe('Teacher Entity', () => {
     )
     expect(teacher.phone.equals(Phone.create(dummyTeacher.phone))).toBeTruthy()
     expect(teacher.email.equals(Email.create(dummyTeacher.email))).toBeTruthy()
-    // expect(teacher.buyingDate).toEqual(dummyTeacher.buyingDate)
+    // expect(teacher.hiringDate).toEqual(dummyTeacher.buyingDate)
     // expect(teacher.wage).toEqual(dummyTeacher.wage)
     // expect(teacher.specialization).toEqual(dummyTeacher.specialization)
   })
