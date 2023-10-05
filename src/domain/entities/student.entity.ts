@@ -23,7 +23,7 @@ type CreateStudentProps = Omit<
 }
 
 export class Student extends DomainEntity<CreateStudentProps> {
-  public static create(props: StudentProps) {
+  public static create(props: StudentProps): Student {
     const { firstName, lastName, cpf, ...rest } = props
     return new Student({
       ...rest,
