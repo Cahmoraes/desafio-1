@@ -3,12 +3,12 @@ import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 type TurnType = 'M' | 'T' | 'N'
 type CharType = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H'
 interface ClassRoomProps {
-  turn: TurnType
-  char: CharType
+  turn?: TurnType
+  char?: CharType
 }
 
 export class ClassRoomCode extends UniqueEntityId {
-  public static create(classRomProps?: ClassRoomProps): ClassRoomCode {
+  public static create(classRomProps: ClassRoomProps = {}): ClassRoomCode {
     return new ClassRoomCode(this.generateCode(classRomProps))
   }
 
@@ -26,17 +26,13 @@ export class ClassRoomCode extends UniqueEntityId {
     return Math.floor(Math.random() * 9) + 1
   }
 
-  private static classRoomChar(classRomProps?: ClassRoomProps): string {
+  private static classRoomChar(classRomProps: ClassRoomProps = {}): string {
     const chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-    return classRomProps
-      ? classRomProps.char
-      : chars[Math.floor(Math.random() * chars.length)]
+    return classRomProps.char ?? chars[Math.floor(Math.random() * chars.length)]
   }
 
-  private static classRoomTurn(classRomProps?: ClassRoomProps): string {
+  private static classRoomTurn(classRomProps: ClassRoomProps = {}): string {
     const turns = ['M', 'T', 'N']
-    return classRomProps
-      ? classRomProps.turn
-      : turns[Math.floor(Math.random() * turns.length)]
+    return classRomProps.turn ?? turns[Math.floor(Math.random() * turns.length)]
   }
 }

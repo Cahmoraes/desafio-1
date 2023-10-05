@@ -1,4 +1,3 @@
-import { RequiredFieldError } from './errors/required-field.error'
 import { Parent, ParentProps } from './parent.entity'
 import { Address } from './value-objects/address'
 import { Cpf } from './value-objects/cpf'
@@ -38,6 +37,13 @@ describe('Parent Entity', () => {
     const cloneDummyParent: ParentProps = { ...dummyParent, emails: [] }
     expect(() => Parent.create(cloneDummyParent)).toThrowError(
       'Must be at least one email',
+    )
+  })
+
+  test('Deve gerar um erro ao tentar criar um Parent sem endereço', () => {
+    const cloneDummyParent: ParentProps = { ...dummyParent, address: [] }
+    expect(() => Parent.create(cloneDummyParent)).toThrowError(
+      'Must be at least one address',
     )
   })
 })

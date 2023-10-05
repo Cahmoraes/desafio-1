@@ -5,6 +5,7 @@ describe('ClassRoomCode', () => {
     const code = ClassRoomCode.create()
     expect(code).toBeInstanceOf(ClassRoomCode)
     expect(typeof code.toString()).toBe('string')
+    expect(code.toString()).toMatch(/^[1-9][A-H]-(M|T|N)$/)
   })
 
   test('Deve criar um código de turma usando restore', () => {
@@ -29,5 +30,19 @@ describe('ClassRoomCode', () => {
     const code1 = ClassRoomCode.create()
     const code2 = ClassRoomCode.create()
     expect(code1.equals(code2)).toBeFalsy()
+  })
+
+  test('Deve criar um código de turma no período da manhã', () => {
+    const code = ClassRoomCode.create({
+      turn: 'M',
+    })
+    expect(code.toString()).toMatch(/-M$/)
+  })
+
+  test('Deve criar uma turma na letra C', () => {
+    const code = ClassRoomCode.create({
+      char: 'C',
+    })
+    expect(code.toString()).toMatch(/\dC-/)
   })
 })
