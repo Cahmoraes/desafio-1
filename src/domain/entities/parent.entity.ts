@@ -45,6 +45,7 @@ export class Parent extends DomainEntity<CreateParentProps> {
   }
 
   private static validate(props: ParentProps): void {
+    if (!props.lastName) throw new RequiredFieldError('lastName is required')
     if (!props.emails.length)
       throw new RequiredFieldError('Must be at least one email')
     if (!props.address.length)

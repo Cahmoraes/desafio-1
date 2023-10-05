@@ -60,4 +60,14 @@ describe('Parent Entity', () => {
       'Must be at least one phone',
     )
   })
+
+  test('Deve gerar um erro ao tentar criar um parent sem sobrenome', () => {
+    const cloneDummyParent: ParentProps = {
+      ...dummyParent,
+      lastName: '',
+    }
+    expect(() => Parent.create(cloneDummyParent)).toThrowError(
+      'lastName is required',
+    )
+  })
 })
