@@ -77,6 +77,14 @@ export class Student extends DomainEntity<CreateStudentProps> {
     }
   }
 
+  get name(): string {
+    return this.props.name.firstName
+  }
+
+  get lastName(): string {
+    return this.props.name.lastName
+  }
+
   get fullName(): string {
     return this.props.name.fullName
   }
