@@ -1,6 +1,6 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { CreateParentUseCase } from './create-parent.usecase'
-import { Phone } from '../entities/value-objects/phone'
+import { Phone } from '@/domain/entities/value-objects/phone'
 
 describe('Create Parent Use Case', () => {
   let sut: CreateParentUseCase

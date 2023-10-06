@@ -1,6 +1,6 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
-import { Parent, ParentProps } from '../entities/parent.entity'
 import { GetParentUseCase } from './get-parent.usecase'
+import { Parent, ParentProps } from '@/domain/entities/parent.entity'
 
 describe('Get Parent Use Case', async () => {
   let sut: GetParentUseCase

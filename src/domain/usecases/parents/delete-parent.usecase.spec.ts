@@ -1,6 +1,6 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { DeleteParentUseCase } from './delete-parent.usecase'
-import { Parent, ParentProps } from '../entities/parent.entity'
+import { Parent, ParentProps } from '@/domain/entities/parent.entity'
 
 describe('Delete Parent Use Case', () => {
   let sut: DeleteParentUseCase

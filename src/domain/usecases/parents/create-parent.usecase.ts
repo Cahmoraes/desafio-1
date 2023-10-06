@@ -1,5 +1,5 @@
-import { Parent } from '../entities/parent.entity'
-import { ParentsRepository } from '../repositories/parents.repository'
+import { Parent } from '../../entities/parent.entity'
+import { ParentsRepository } from '../../repositories/parents.repository'
 
 interface CreateParentUseCaseInput {
   name: string
