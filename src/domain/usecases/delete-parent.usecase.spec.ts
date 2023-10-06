@@ -1,6 +1,5 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { DeleteParentUseCase } from './delete-parent.usecase'
-import { Phone } from '../entities/value-objects/phone'
 import { Parent, ParentProps } from '../entities/parent.entity'
 
 describe('Delete Parent Use Case', () => {

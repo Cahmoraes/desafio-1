@@ -3,6 +3,7 @@ import { ParentsRepository } from '@/domain/repositories/parents.repository'
 import ExtendedSet from '@cahmoraes93/extended-set'
 
 export class InMemoryParentsRepository implements ParentsRepository {
+  public LIMIT_PER_PAGE = 20
   public data = new ExtendedSet<Parent>()
 
   async save(aParent: Parent): Promise<void> {
@@ -23,5 +24,11 @@ export class InMemoryParentsRepository implements ParentsRepository {
 
   async delete(aParent: Parent): Promise<void> {
     this.data.delete(aParent)
+  }
+
+  async allParents(page: number): Promise<Parent[]> {
+    return this.data
+      .toArray()
+      .slice((page - 1) * this.LIMIT_PER_PAGE, page * this.LIMIT_PER_PAGE)
   }
 }

@@ -5,4 +5,5 @@ export interface ParentsRepository {
   update(aParent: Parent): Promise<void>
   delete(aParent: Parent): Promise<void>
   parentOfId(aParentId: string): Promise<Parent | null>
+  allParents(page: number): Promise<Parent[]>
 }
