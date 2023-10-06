@@ -1,5 +1,6 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { CreateParentUseCase } from './create-parent.usecase'
+import { Phone } from '../entities/value-objects/phone'
 
 describe('Create Parent Use Case', () => {
   let sut: CreateParentUseCase
@@ -10,8 +11,8 @@ describe('Create Parent Use Case', () => {
     sut = new CreateParentUseCase(parentsRepository)
   })
 
-  test('Deve criar um Parent', () => {
-    sut.execute({
+  test('Deve criar um Parent', async () => {
+    await sut.execute({
       name: 'any_name',
       lastName: 'any_sobrenome',
       phones: ['0123456789', '1234567890'],
@@ -28,8 +29,9 @@ describe('Create Parent Use Case', () => {
     expect(parentsRepository.data.toArray()[0].fullName).toEqual(
       'any_name any_sobrenome',
     )
+
     expect(parentsRepository.data.toArray()[0].phones).toEqual(
-      '0123456789,1234567890',
+      expect.arrayContaining(['0123456789', '1234567890'].map(Phone.create)),
     )
     expect(parentsRepository.data.toArray()[0].emails[0].toString()).toEqual(
       'any_email',

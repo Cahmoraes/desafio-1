@@ -21,7 +21,7 @@ describe('Parent Entity', () => {
     expect(parent.name).toBe('any_name')
     expect(parent.lastName).toBe('any_sobrenome')
     expect(parent.fullName).toBe('any_name any_sobrenome')
-    expect(parent.phones).toEqual('0123456789,1234567890')
+    expect(parent.phones.toString()).toEqual('0123456789,1234567890')
     expect(parent.emails).toBeInstanceOf(Array)
     expect(parent.emails[0]).toBeInstanceOf(Email)
     expect(parent.emails[0].toString()).toEqual('any_email')

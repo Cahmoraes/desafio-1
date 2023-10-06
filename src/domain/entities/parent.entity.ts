@@ -74,8 +74,8 @@ export class Parent extends DomainEntity<CreateParentProps> {
     return this.props.name.fullName
   }
 
-  get phones(): string {
-    return this.props.phones.toString()
+  get phones(): Phone[] {
+    return this.props.phones
   }
 
   get emails(): Email[] {
