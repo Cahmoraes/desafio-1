@@ -22,9 +22,7 @@ export class UpdateParentUseCase {
     fields,
   }: UpdateParentUseCaseInput): Promise<UpdateParentUseCaseOutput> {
     const parent = await this.parentsRepository.parentOfId(parentId)
-    if (!parent) {
-      throw new Error(`Parent of id [${parentId}] not found`)
-    }
+    if (!parent) throw new Error(`Parent of id [${parentId}] not found`)
     const newParent = parent.clone(fields)
     await this.parentsRepository.update(newParent)
   }

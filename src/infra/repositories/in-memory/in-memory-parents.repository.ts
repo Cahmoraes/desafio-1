@@ -20,4 +20,8 @@ export class InMemoryParentsRepository implements ParentsRepository {
   async parentOfId(aParentId: string): Promise<Parent | null> {
     return this.data.find((parent) => parent.id.toString() === aParentId)
   }
+
+  async delete(aParent: Parent): Promise<void> {
+    this.data.delete(aParent)
+  }
 }
