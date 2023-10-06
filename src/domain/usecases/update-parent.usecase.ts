@@ -26,18 +26,7 @@ export class UpdateParentUseCase {
     if (!parent) {
       throw new Error(`Parent of id [${parentId}] not found`)
     }
-    const newParent = Parent.create(
-      {
-        name: parent.name,
-        lastName: parent.lastName,
-        address: parent.address.map((address) => address.toString()),
-        emails: parent.emails.map((email) => email.toString()),
-        phones: parent.phones.map((phone) => phone.toString()),
-        cpf: parent.cpf.toString(),
-        ...fields,
-      },
-      parentId,
-    )
+    const newParent = parent.clone(fields)
     await this.parentsRepository.update(newParent)
   }
 }

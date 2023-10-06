@@ -6,6 +6,7 @@ import { Address } from './value-objects/address'
 import { Cpf } from './value-objects/cpf'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 import { RequiredFieldError } from './errors/required-field.error'
+import { Clone } from './interfaces/clone'
 
 export interface ParentProps {
   name: string
@@ -24,7 +25,10 @@ type CreateParentProps = {
   cpf: Cpf
 }
 
-export class Parent extends DomainEntity<CreateParentProps> {
+export class Parent
+  extends DomainEntity<CreateParentProps>
+  implements Clone<Parent>
+{
   private readonly _studentIds: string[] = []
 
   public static create(
@@ -60,6 +64,21 @@ export class Parent extends DomainEntity<CreateParentProps> {
     if (!props.phones.length) {
       throw new RequiredFieldError('Must be at least one phone')
     }
+  }
+
+  public clone<Props>(fields?: Props | undefined): Parent {
+    return Parent.create(
+      {
+        name: this.name,
+        lastName: this.lastName,
+        address: this.address.map((address) => address.toString()),
+        emails: this.emails.map((email) => email.toString()),
+        phones: this.phones.map((phone) => phone.toString()),
+        cpf: this.cpf.toString(),
+        ...fields,
+      },
+      this.id,
+    )
   }
 
   get name(): string {
