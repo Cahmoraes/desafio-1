@@ -6,7 +6,7 @@ import { Address } from './value-objects/address'
 import { Cpf } from './value-objects/cpf'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 import { RequiredFieldError } from './errors/required-field.error'
-import { Clone } from './interfaces/clone'
+import { Prototype } from './interfaces/prototype'
 
 export interface ParentProps {
   name: string
@@ -27,7 +27,7 @@ type CreateParentProps = {
 
 export class Parent
   extends DomainEntity<CreateParentProps>
-  implements Clone<Parent>
+  implements Prototype<Parent>
 {
   private readonly _studentIds: string[] = []
 
