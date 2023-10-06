@@ -33,6 +33,7 @@ describe('Update Parent Use Case', () => {
 
     const repositoryData = parentsRepository.data.toArray()
     expect(repositoryData.length).toBe(1)
+    expect(repositoryData[0].id.equals(parent.id)).toBeTruthy()
     expect(repositoryData[0].name).toEqual('change_name')
     expect(repositoryData[0].lastName).toEqual('change_lastName')
     expect(repositoryData[0].cpf.toString()).toEqual(dummyParent.cpf)
