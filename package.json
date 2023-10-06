@@ -21,5 +21,8 @@
     "typescript": "^5.2.2",
     "vitest": "^0.34.6",
     "vitest-tsconfig-paths": "^3.4.1"
+  },
+  "dependencies": {
+    "@cahmoraes93/extended-set": "^1.1.3"
   }
 }
