@@ -1,6 +1,7 @@
 import { RequiredFieldError } from './errors/required-field.error'
 import { Student, StudentProps } from './student.entity'
 import { Allergy } from './value-objects/allergy'
+import { ClassRoomCode } from './value-objects/classroom-code'
 import { Cpf } from './value-objects/cpf'
 import { Medication } from './value-objects/medication'
 import { Name } from './value-objects/name'
@@ -100,5 +101,13 @@ describe('Student Entity', () => {
     expect(() => Student.create(cloneDummyStudent)).toThrow(
       new RequiredFieldError('blood is required'),
     )
+  })
+
+  test('Deve associar um Student a uma ClassRoom', () => {
+    const student = Student.create(dummyStudent)
+    expect(student.classRoom).toBeUndefined()
+    student.associateToClassRoom(ClassRoomCode.create())
+    expect(student.classRoom).toBeDefined()
+    expect(student.classRoom).toBeInstanceOf(ClassRoomCode)
   })
 })

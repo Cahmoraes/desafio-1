@@ -7,6 +7,7 @@ import { Allergy } from './value-objects/allergy'
 import { Medication } from './value-objects/medication'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 import { RequiredFieldError } from './errors/required-field.error'
+import { ClassRoomCode } from './value-objects/classroom-code'
 
 export interface StudentProps {
   firstName: string
@@ -33,6 +34,8 @@ type CreateStudentProps = Pick<
 }
 
 export class Student extends DomainEntity<CreateStudentProps> {
+  private _classRoomCode?: ClassRoomCode
+
   public static create(
     props: StudentProps,
     anIdOrString?: UniqueEntityId | string,
@@ -104,5 +107,13 @@ export class Student extends DomainEntity<CreateStudentProps> {
 
   get birthDay(): Date {
     return this.props.birthDay
+  }
+
+  get classRoom(): ClassRoomCode | undefined {
+    return this._classRoomCode
+  }
+
+  public associateToClassRoom(classRoomCode: ClassRoomCode): void {
+    this._classRoomCode = classRoomCode
   }
 }
