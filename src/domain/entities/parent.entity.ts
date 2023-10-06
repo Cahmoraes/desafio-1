@@ -66,7 +66,7 @@ export class Parent
     }
   }
 
-  public clone<Props>(fields?: Props): Parent {
+  public clone<Props = ParentProps>(fields?: Props): Parent {
     return Parent.create(
       {
         name: this.name,

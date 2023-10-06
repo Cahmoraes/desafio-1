@@ -1,17 +1,10 @@
+import { ParentProps } from '../entities/parent.entity'
 import { ParentsRepository } from '../repositories/parents.repository'
 
 interface UpdateParentUseCaseInput {
   parentId: string
-  fields: {
-    name?: string
-    lastName?: string
-    phones?: string[]
-    emails?: string[]
-    address?: string[]
-    cpf?: string
-  }
+  fields: Partial<ParentProps>
 }
-
 type UpdateParentUseCaseOutput = void
 
 export class UpdateParentUseCase {

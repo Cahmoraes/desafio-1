@@ -1,3 +1,3 @@
-export interface Prototype<T> {
-  clone<Props>(props?: Props): T
+export interface Prototype<Base> {
+  clone<Props = unknown>(props?: Props): Base
 }
