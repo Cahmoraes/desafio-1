@@ -23,12 +23,12 @@ export class ClassRoomCode extends UniqueEntityId {
   }
 
   private static generateCode(classRomProps?: ClassRoomCodeProps): string {
-    return `${this.onToNineRandomNumber(classRomProps)}${this.classRoomChar(
+    return `${this.oneToNineRandomNumber(classRomProps)}${this.classRoomChar(
       classRomProps,
     )}-${this.classRoomTurn(classRomProps)}`
   }
 
-  private static onToNineRandomNumber(
+  private static oneToNineRandomNumber(
     classRomProps: ClassRoomCodeProps = {},
   ): number {
     return classRomProps.number ?? Math.floor(Math.random() * 9) + 1
