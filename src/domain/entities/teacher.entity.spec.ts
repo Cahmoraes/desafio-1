@@ -35,4 +35,23 @@ describe('Teacher Entity', () => {
     expect(teacher.hiringDate).toEqual(dummyTeacher.hiringDate)
     expect(teacher.wage).toEqual(dummyTeacher.wage)
   })
+
+  test('Deve criar um clone com propriedades alteradas', () => {
+    const teacher = Teacher.create(dummyTeacher)
+    const clonedTeacher = teacher.clone({
+      cpf: 'any_other_cpf',
+      firstName: 'any_other_name',
+      lastName: 'any_other_sobrenome',
+    })
+    expect(clonedTeacher).toBeInstanceOf(Teacher)
+    expect(clonedTeacher.id.equals(teacher.id)).toBeTruthy()
+    expect(teacher.cpf).toEqual(dummyTeacher.cpf)
+    expect(clonedTeacher.cpf).toEqual('any_other_cpf')
+    expect(teacher.fullName).toEqual(
+      Name.create(dummyTeacher.firstName, dummyTeacher.lastName).toString(),
+    )
+    expect(clonedTeacher.fullName).toEqual(
+      Name.create('any_other_name', 'any_other_sobrenome').toString(),
+    )
+  })
 })
