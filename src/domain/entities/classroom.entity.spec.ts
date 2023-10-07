@@ -65,4 +65,16 @@ describe('ClassRoom Entity', () => {
       'duration must be greater than zero',
     )
   })
+
+  test('Deve criar um clone com propriedades alteradas', () => {
+    const classRoom = ClassRoom.create(dummyClassRoom)
+    const classRoomCloned = classRoom.clone({
+      discipline: 'any_other_discipline',
+      duration: 2,
+    })
+    expect(classRoom.duration).toBe(dummyClassRoom.duration)
+    expect(classRoom.discipline).toBe(dummyClassRoom.discipline)
+    expect(classRoomCloned.discipline).toBe('any_other_discipline')
+    expect(classRoomCloned.duration).toBe(2)
+  })
 })

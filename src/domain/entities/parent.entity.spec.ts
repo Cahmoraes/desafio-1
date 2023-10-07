@@ -78,6 +78,7 @@ describe('Parent Entity', () => {
       emails: [parent.emails[0].toString(), 'another_email@example.com'],
     })
     expect(clonedParent).toBeInstanceOf(Parent)
+    expect(clonedParent.id.equals(parent.id)).toBeTruthy()
     expect(clonedParent.address[0].toString()).toEqual('any_other_address')
     expect(clonedParent.emails).toEqual(
       [parent.emails[0].toString(), 'another_email@example.com'].map(
