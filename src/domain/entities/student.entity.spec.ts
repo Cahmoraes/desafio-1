@@ -110,4 +110,15 @@ describe('Student Entity', () => {
     expect(student.classRoom).toBeDefined()
     expect(student.classRoom).toBeInstanceOf(ClassRoomCode)
   })
+
+  test('Deve criar um clone com propriedades alteradas', () => {
+    const student = Student.create(dummyStudent)
+    const clonedStudent = student.clone({
+      blood: 'AB-',
+    })
+    expect(clonedStudent).toBeInstanceOf(Student)
+    expect(clonedStudent.id.equals(student.id)).toBeTruthy()
+    expect(student.blood).toEqual('A+')
+    expect(clonedStudent.blood).toEqual('AB-')
+  })
 })

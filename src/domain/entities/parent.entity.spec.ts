@@ -71,7 +71,7 @@ describe('Parent Entity', () => {
     )
   })
 
-  test('Deve criar um clone de uma Parent com propriedades alteradas', () => {
+  test('Deve criar um clone com propriedades alteradas', () => {
     const parent = Parent.create(dummyParent)
     const clonedParent = parent.clone({
       address: ['any_other_address'],
