@@ -70,4 +70,19 @@ describe('Parent Entity', () => {
       'lastName is required',
     )
   })
+
+  test('Deve criar um clone de uma Parent com propriedades alteradas', () => {
+    const parent = Parent.create(dummyParent)
+    const clonedParent = parent.clone({
+      address: ['any_other_address'],
+      emails: [parent.emails[0].toString(), 'another_email@example.com'],
+    })
+    expect(clonedParent).toBeInstanceOf(Parent)
+    expect(clonedParent.address[0].toString()).toEqual('any_other_address')
+    expect(clonedParent.emails).toEqual(
+      [parent.emails[0].toString(), 'another_email@example.com'].map(
+        Email.create,
+      ),
+    )
+  })
 })

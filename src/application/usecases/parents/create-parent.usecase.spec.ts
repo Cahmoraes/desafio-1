@@ -1,9 +1,8 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { CreateParentUseCase } from './create-parent.usecase'
 import { Phone } from '@/domain/entities/value-objects/phone'
-import { Parent, ParentProps } from '@/domain/entities/parent.entity'
+import { ParentProps } from '@/domain/entities/parent.entity'
 import { ParentPresenter } from '@/infra/presenters/parent.presenter'
-import { Email } from '@/domain/entities/value-objects/email'
 
 describe('Create Parent Use Case', () => {
   let sut: CreateParentUseCase
@@ -45,21 +44,6 @@ describe('Create Parent Use Case', () => {
     )
     expect(parentsRepository.data.toArray()[0].cpf.toString()).toEqual(
       'any_cpf',
-    )
-  })
-
-  test('Deve criar um clone de uma Parent com propriedades alteradas', () => {
-    const parent = Parent.create(dummyParent)
-    const clonedParent = parent.clone({
-      address: ['any_other_address'],
-      emails: [parent.emails[0].toString(), 'another_email@example.com'],
-    })
-    expect(clonedParent).toBeInstanceOf(Parent)
-    expect(clonedParent.address[0].toString()).toEqual('any_other_address')
-    expect(clonedParent.emails).toEqual(
-      [parent.emails[0].toString(), 'another_email@example.com'].map(
-        Email.create,
-      ),
     )
   })
 })
