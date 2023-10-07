@@ -8,6 +8,7 @@ import { Medication } from './value-objects/medication'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 import { RequiredFieldError } from './errors/required-field.error'
 import { ClassRoomCode } from './value-objects/classroom-code'
+import { Prototype } from './interfaces/prototype'
 
 export interface StudentProps {
   firstName: string
@@ -33,7 +34,10 @@ type CreateStudentProps = Pick<
   medication: Medication[]
 }
 
-export class Student extends DomainEntity<CreateStudentProps> {
+export class Student
+  extends DomainEntity<CreateStudentProps>
+  implements Prototype<Student>
+{
   private _classRoomCode?: ClassRoomCode
 
   public static create(
@@ -123,5 +127,23 @@ export class Student extends DomainEntity<CreateStudentProps> {
 
   public associateToClassRoom(classRoomCode: ClassRoomCode): void {
     this._classRoomCode = classRoomCode
+  }
+
+  public clone<Props = StudentProps>(fields?: Props): Student {
+    return Student.create(
+      {
+        firstName: this.name,
+        lastName: this.lastName,
+        allergies: this.allergies.map((allergy) => allergy.toString()),
+        birthDay: this.birthDay,
+        blood: this.blood,
+        cpf: this.cpf.toString(),
+        parentId: this.parentId,
+        medication: this.medication.map((medication) => medication.toString()),
+        registrationDate: this.registrationDate,
+        ...fields,
+      },
+      this.id,
+    )
   }
 }
