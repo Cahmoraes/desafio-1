@@ -4,6 +4,8 @@ import {
   ClassRoomCodeProps,
 } from './value-objects/classroom-code'
 import { ClassRoomValidatorFactory } from '../validators/classroom/class-validator-factory'
+import { Prototype } from './interfaces/prototype'
+import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 
 export interface ClassRoomProps {
   maxStudentsNumber: number
@@ -12,17 +14,33 @@ export interface ClassRoomProps {
   duration: number
 }
 
-export class ClassRoom extends DomainEntity<ClassRoomProps> {
+export class ClassRoom
+  extends DomainEntity<ClassRoomProps>
+  implements Prototype<ClassRoom>
+{
   public static create(
     props: ClassRoomProps,
-    classRoomCodeProps?: ClassRoomCodeProps,
+    anIdOrClassRoomCodeProps?: UniqueEntityId | ClassRoomCodeProps,
   ): ClassRoom {
     this.validate(props)
-    return new ClassRoom(props, ClassRoomCode.create(classRoomCodeProps))
+    return new ClassRoom(props, ClassRoomCode.create(anIdOrClassRoomCodeProps))
   }
 
   private static validate(props: ClassRoomProps): void {
     ClassRoomValidatorFactory.create().handle(props)
+  }
+
+  public clone<Props = Partial<ClassRoomProps>>(fields?: Props): ClassRoom {
+    return ClassRoom.create(
+      {
+        discipline: this.discipline,
+        duration: this.duration,
+        maxStudentsNumber: this.maxStudentsNumber,
+        minAge: this.minAge,
+        ...fields,
+      },
+      this.id,
+    )
   }
 
   get id(): ClassRoomCode {
