@@ -5,6 +5,7 @@ import { Phone } from './value-objects/phone'
 import { Email } from './value-objects/email'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
 import { Specialization } from './value-objects/specialization'
+import { Prototype } from './interfaces/prototype'
 
 export interface TeacherProps {
   firstName: string
@@ -25,7 +26,10 @@ type CreateTeacherProps = Pick<TeacherProps, 'hiringDate' | 'wage'> & {
   specialization: Specialization
 }
 
-export class Teacher extends DomainEntity<CreateTeacherProps> {
+export class Teacher
+  extends DomainEntity<CreateTeacherProps>
+  implements Prototype<Teacher>
+{
   static create(
     props: TeacherProps,
     anIdOrString?: UniqueEntityId | string,
@@ -42,6 +46,23 @@ export class Teacher extends DomainEntity<CreateTeacherProps> {
         specialization: Specialization.create(specialization),
       },
       new UniqueEntityId(anIdOrString),
+    )
+  }
+
+  public clone<Props = Partial<TeacherProps>>(fields?: Props): Teacher {
+    return Teacher.create(
+      {
+        firstName: this.name,
+        lastName: this.lastName,
+        cpf: this.cpf,
+        phone: this.phone.toString(),
+        email: this.email.toString(),
+        specialization: this.specialization.toString(),
+        hiringDate: this.hiringDate,
+        wage: this.wage,
+        ...fields,
+      },
+      this.id,
     )
   }
 
