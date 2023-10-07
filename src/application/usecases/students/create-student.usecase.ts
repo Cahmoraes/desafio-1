@@ -1,6 +1,6 @@
 import { BloodType } from '@/core/enums/blood-types.enum'
-import { Student } from '../../entities/student.entity'
 import { StudentsRepository } from '../../repositories/students.repository'
+import { Student } from '@/domain/entities/student.entity'
 
 interface CreateStudentUseCaseInput {
   firstName: string

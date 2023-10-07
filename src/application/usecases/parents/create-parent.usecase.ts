@@ -1,4 +1,4 @@
-import { Parent } from '../../entities/parent.entity'
+import { Parent } from '@/domain/entities/parent.entity'
 import { ParentsRepository } from '../../repositories/parents.repository'
 
 interface CreateParentUseCaseInput {

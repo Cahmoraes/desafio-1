@@ -1,4 +1,4 @@
-import { ClassRoomsRepository } from '@/domain/repositories/classrooms.repository'
+import { ClassRoomsRepository } from '@/application/repositories/classrooms.repository'
 
 interface DeleteClassRoomUseCaseInput {
   classroomId: string

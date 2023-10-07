@@ -1,6 +1,6 @@
-import { Teacher } from '@/domain/entities/teacher.entity'
-import { TeachersRepository } from '@/domain/repositories/teachers.repository'
 import ExtendedSet from '@cahmoraes93/extended-set'
+import { Teacher } from '@/domain/entities/teacher.entity'
+import { TeachersRepository } from '@/application/repositories/teachers.repository'
 
 export class InMemoryTeachersRepository implements TeachersRepository {
   public LIMIT_PER_PAGE = 20

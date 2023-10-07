@@ -1,4 +1,4 @@
-import { ClassRoom } from '../entities/classroom.entity'
+import { ClassRoom } from '@/domain/entities/classroom.entity'
 
 export interface ClassRoomsRepository {
   save(aClassRoom: ClassRoom): Promise<void>

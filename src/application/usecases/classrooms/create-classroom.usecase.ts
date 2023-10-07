@@ -1,4 +1,4 @@
-import { ClassRoom, ClassRoomProps } from '../../entities/classroom.entity'
+import { ClassRoom, ClassRoomProps } from '@/domain/entities/classroom.entity'
 import { ClassRoomsRepository } from '../../repositories/classrooms.repository'
 
 type CreateClassRoomUseCaseInput = ClassRoomProps

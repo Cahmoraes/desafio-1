@@ -1,5 +1,5 @@
+import { ClassRoomsRepository } from '@/application/repositories/classrooms.repository'
 import { ClassRoom } from '@/domain/entities/classroom.entity'
-import { ClassRoomsRepository } from '@/domain/repositories/classrooms.repository'
 import ExtendedSet from '@cahmoraes93/extended-set'
 
 export class InMemoryClassRoomsRepository implements ClassRoomsRepository {

@@ -1,4 +1,4 @@
-import { Parent } from '../entities/parent.entity'
+import { Parent } from '@/domain/entities/parent.entity'
 
 export interface ParentsRepository {
   save(aParent: Parent): Promise<void>

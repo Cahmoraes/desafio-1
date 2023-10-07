@@ -1,5 +1,5 @@
+import { TeachersRepository } from '@/application/repositories/teachers.repository'
 import { Teacher } from '@/domain/entities/teacher.entity'
-import { TeachersRepository } from '@/domain/repositories/teachers.repository'
 
 interface GetTeacherUseCaseInput {
   teacherId: string

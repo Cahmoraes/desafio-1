@@ -1,5 +1,5 @@
+import { ParentsRepository } from '@/application/repositories/parents.repository'
 import { Parent } from '@/domain/entities/parent.entity'
-import { ParentsRepository } from '@/domain/repositories/parents.repository'
 
 interface GetParentUseCaseInput {
   parentId: string

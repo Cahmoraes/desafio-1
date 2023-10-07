@@ -1,5 +1,5 @@
+import { ClassRoomsRepository } from '@/application/repositories/classrooms.repository'
 import { ClassRoom } from '@/domain/entities/classroom.entity'
-import { ClassRoomsRepository } from '@/domain/repositories/classrooms.repository'
 
 interface GetClassRoomUseCaseInput {
   classroomId: string

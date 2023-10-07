@@ -1,5 +1,5 @@
+import { TeachersRepository } from '@/application/repositories/teachers.repository'
 import { TeacherProps } from '@/domain/entities/teacher.entity'
-import { TeachersRepository } from '@/domain/repositories/teachers.repository'
 
 interface UpdateTeacherUseCaseInput {
   teacherId: string

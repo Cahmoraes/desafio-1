@@ -1,5 +1,5 @@
+import { ClassRoomsRepository } from '@/application/repositories/classrooms.repository'
 import { ClassRoomProps } from '@/domain/entities/classroom.entity'
-import { ClassRoomsRepository } from '@/domain/repositories/classrooms.repository'
 
 interface UpdateClassRoomUseCaseInput {
   classroomId: string

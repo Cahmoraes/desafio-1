@@ -1,6 +1,6 @@
-import { Parent } from '@/domain/entities/parent.entity'
-import { ParentsRepository } from '@/domain/repositories/parents.repository'
 import ExtendedSet from '@cahmoraes93/extended-set'
+import { ParentsRepository } from '@/application/repositories/parents.repository'
+import { Parent } from '@/domain/entities/parent.entity'
 
 export class InMemoryParentsRepository implements ParentsRepository {
   public LIMIT_PER_PAGE = 20

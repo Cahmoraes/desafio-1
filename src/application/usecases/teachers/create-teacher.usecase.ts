@@ -1,4 +1,4 @@
-import { Teacher, TeacherProps } from '../../entities/teacher.entity'
+import { Teacher, TeacherProps } from '@/domain/entities/teacher.entity'
 import { TeachersRepository } from '../../repositories/teachers.repository'
 
 type CreateTeacherUseCaseInput = TeacherProps

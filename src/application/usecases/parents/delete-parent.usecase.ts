@@ -1,4 +1,4 @@
-import { ParentsRepository } from '@/domain/repositories/parents.repository'
+import { ParentsRepository } from '@/application/repositories/parents.repository'
 
 interface DeleteParentUseCaseInput {
   parentId: string

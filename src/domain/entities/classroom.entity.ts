@@ -3,9 +3,9 @@ import {
   ClassRoomCode,
   ClassRoomCodeProps,
 } from './value-objects/classroom-code'
-import { ClassRoomValidatorFactory } from '../validators/classroom/class-validator-factory'
 import { Prototype } from './interfaces/prototype'
 import { UniqueEntityId } from '@/core/entities/value-objects/unique-entity'
+import { ClassRoomValidatorFactory } from '@/application/validators/classroom/class-validator-factory'
 
 export interface ClassRoomProps {
   maxStudentsNumber: number

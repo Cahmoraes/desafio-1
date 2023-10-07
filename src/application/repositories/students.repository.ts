@@ -1,4 +1,4 @@
-import { Student } from '../entities/student.entity'
+import { Student } from '@/domain/entities/student.entity'
 
 export interface StudentsRepository {
   save(aStudent: Student): Promise<void>

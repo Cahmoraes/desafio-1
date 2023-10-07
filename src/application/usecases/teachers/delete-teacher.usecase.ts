@@ -1,4 +1,4 @@
-import { TeachersRepository } from '@/domain/repositories/teachers.repository'
+import { TeachersRepository } from '@/application/repositories/teachers.repository'
 
 interface DeleteTeacherUseCaseInput {
   teacherId: string
