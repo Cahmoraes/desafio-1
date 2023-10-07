@@ -30,7 +30,7 @@ export class ClassRoom
     ClassRoomValidatorFactory.create().handle(props)
   }
 
-  public clone<Props = Partial<ClassRoomProps>>(fields?: Props): ClassRoom {
+  public clone(fields?: Partial<ClassRoomProps>): ClassRoom {
     return ClassRoom.create(
       {
         discipline: this.discipline,

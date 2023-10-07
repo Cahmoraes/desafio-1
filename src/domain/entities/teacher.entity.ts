@@ -49,7 +49,7 @@ export class Teacher
     )
   }
 
-  public clone<Props = Partial<TeacherProps>>(fields?: Props): Teacher {
+  public clone(fields?: Partial<TeacherProps>): Teacher {
     return Teacher.create(
       {
         firstName: this.name,

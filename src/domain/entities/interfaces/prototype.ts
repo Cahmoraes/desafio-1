@@ -1,3 +1,3 @@
 export interface Prototype<Base> {
-  clone<Props>(props?: Props): Base
+  clone(props?: object): Base
 }
