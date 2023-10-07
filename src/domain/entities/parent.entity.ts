@@ -71,9 +71,9 @@ export class Parent
       {
         name: this.name,
         lastName: this.lastName,
-        address: this.address.map((address) => address.toString()),
-        emails: this.emails.map((email) => email.toString()),
-        phones: this.phones.map((phone) => phone.toString()),
+        address: this.address.map(String),
+        emails: this.emails.map(String),
+        phones: this.phones.map(String),
         cpf: this.cpf.toString(),
         ...fields,
       },

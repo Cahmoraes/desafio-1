@@ -16,7 +16,7 @@ export class UpdateStudentUseCase {
   }: UpdateStudentUseCaseInput): Promise<UpdateStudentUseCaseOutput> {
     const student = await this.studentsRepository.studentOfId(studentId)
     if (!student) throw new Error(`Student of id [${studentId}] not found`)
-    const newStudent = student.clone(fields)
-    await this.studentsRepository.update(newStudent)
+    const clonedStudent = student.clone(fields)
+    await this.studentsRepository.update(clonedStudent)
   }
 }
