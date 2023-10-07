@@ -10,12 +10,12 @@ export interface ClassRoomCodeProps {
 
 export class ClassRoomCode extends UniqueEntityId {
   public static create(
-    anIdOrClassRomProps?: UniqueEntityId | ClassRoomCodeProps,
+    anIdOrClassRoomProps?: UniqueEntityId | ClassRoomCodeProps,
   ): ClassRoomCode {
-    if (anIdOrClassRomProps instanceof UniqueEntityId) {
-      return new ClassRoomCode(anIdOrClassRomProps)
+    if (anIdOrClassRoomProps instanceof UniqueEntityId) {
+      return new ClassRoomCode(anIdOrClassRoomProps)
     }
-    return new ClassRoomCode(this.generateCode(anIdOrClassRomProps))
+    return new ClassRoomCode(this.generateCode(anIdOrClassRoomProps))
   }
 
   public static restore(aClassRoomCodeOrString: string): ClassRoomCode {
