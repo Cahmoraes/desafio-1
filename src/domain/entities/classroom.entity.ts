@@ -1,5 +1,8 @@
 import { DomainEntity } from '@/core/entities/domain-entity.entity'
-import { ClassRoomCode } from './value-objects/classroom-code'
+import {
+  ClassRoomCode,
+  ClassRoomCodeProps,
+} from './value-objects/classroom-code'
 import { ClassRoomValidatorFactory } from '../validators/classroom/class-validator-factory'
 
 export interface ClassRoomProps {
@@ -10,9 +13,12 @@ export interface ClassRoomProps {
 }
 
 export class ClassRoom extends DomainEntity<ClassRoomProps> {
-  public static create(props: ClassRoomProps): ClassRoom {
+  public static create(
+    props: ClassRoomProps,
+    classRoomCodeProps?: ClassRoomCodeProps,
+  ): ClassRoom {
     this.validate(props)
-    return new ClassRoom(props, ClassRoomCode.create())
+    return new ClassRoom(props, ClassRoomCode.create(classRoomCodeProps))
   }
 
   private static validate(props: ClassRoomProps): void {
