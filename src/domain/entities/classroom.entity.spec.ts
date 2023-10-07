@@ -56,7 +56,7 @@ describe('ClassRoom Entity', () => {
     )
   })
 
-  test('Deve gerar um erro ao criar um ClassRoom sem duracao', () => {
+  test('Deve gerar um erro ao criar um ClassRoom sem duração', () => {
     const cloneDummyClassRoom: ClassRoomProps = {
       ...dummyClassRoom,
       duration: 0,
