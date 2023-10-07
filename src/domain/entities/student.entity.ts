@@ -129,7 +129,7 @@ export class Student
     this._classRoomCode = classRoomCode
   }
 
-  public clone<Props = StudentProps>(fields?: Props): Student {
+  public clone<Props = Partial<StudentProps>>(fields?: Props): Student {
     return Student.create(
       {
         firstName: this.name,

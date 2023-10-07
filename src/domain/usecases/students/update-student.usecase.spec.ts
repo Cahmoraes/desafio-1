@@ -31,6 +31,7 @@ describe('Update Student Use Case', () => {
       fields: {
         firstName: 'change_name',
         lastName: 'change_lastName',
+        allergies: ['change_allergy'],
       },
     })
 
@@ -40,6 +41,8 @@ describe('Update Student Use Case', () => {
     expect(repositoryData[0].name).toEqual('change_name')
     expect(repositoryData[0].lastName).toEqual('change_lastName')
     expect(repositoryData[0].cpf.toString()).toEqual(dummyStudent.cpf)
+    expect(repositoryData[0].parentId.toString()).toEqual(dummyStudent.parentId)
+    expect(repositoryData[0].allergies[0].toString()).toEqual('change_allergy')
   })
 
   test('Deve gerar um erro ao tentar atualizar um Student inexistente', async () => {
