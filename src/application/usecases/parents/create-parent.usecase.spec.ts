@@ -2,10 +2,12 @@ import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-mem
 import { CreateParentUseCase } from './create-parent.usecase'
 import { Phone } from '@/domain/entities/value-objects/phone'
 import { ParentProps } from '@/domain/entities/parent.entity'
+import { ParentPresenter } from '@/infra/presenters/parent.presenter'
 
 describe('Create Parent Use Case', () => {
   let sut: CreateParentUseCase
   let parentsRepository: InMemoryParentsRepository
+  let parentPresenter: ParentPresenter
   const dummyParent: ParentProps = {
     name: 'any_name',
     lastName: 'any_sobrenome',
@@ -17,7 +19,8 @@ describe('Create Parent Use Case', () => {
 
   beforeEach(() => {
     parentsRepository = new InMemoryParentsRepository()
-    sut = new CreateParentUseCase(parentsRepository)
+    parentPresenter = new ParentPresenter()
+    sut = new CreateParentUseCase(parentsRepository, parentPresenter)
   })
 
   test('Deve criar um Parent', async () => {
@@ -30,7 +33,6 @@ describe('Create Parent Use Case', () => {
     expect(parentsRepository.data.toArray()[0].fullName).toEqual(
       'any_name any_sobrenome',
     )
-
     expect(parentsRepository.data.toArray()[0].phones).toEqual(
       expect.arrayContaining(['0123456789', '1234567890'].map(Phone.create)),
     )
