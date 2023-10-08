@@ -12,7 +12,7 @@ export interface ParentPresenterOutput {
 }
 
 export class ParentPresenter implements Presenter<Parent> {
-  present(aParent: Parent): ParentPresenterOutput {
+  public present(aParent: Parent): ParentPresenterOutput {
     return {
       id: aParent.id.toString(),
       name: aParent.name,
