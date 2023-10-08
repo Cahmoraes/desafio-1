@@ -86,4 +86,12 @@ describe('Parent Entity', () => {
       ),
     )
   })
+
+  test('Não deve desassociar um StudentId inexistente', () => {
+    const parent = Parent.create(dummyParent)
+    parent.addStudent(dummyStudentIds)
+    expect(parent.studentIds).toHaveLength(1)
+    parent.removeStudent('nonexistent_id')
+    expect(parent.studentIds).toHaveLength(1)
+  })
 })
