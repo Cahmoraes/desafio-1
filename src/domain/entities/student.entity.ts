@@ -133,6 +133,10 @@ export class Student
     this._classRoomCode = classRoomCode
   }
 
+  public dissociateClassRoom(): void {
+    this._classRoomCode = undefined
+  }
+
   public clone(fields?: Partial<StudentProps>): Student {
     return Student.create(
       {

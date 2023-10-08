@@ -1,14 +1,14 @@
 import { ClassRoomsRepository } from '@/application/repositories/classrooms.repository'
 import { StudentsRepository } from '@/application/repositories/students.repository'
 
-interface AssociateStudentToClassRoomUseCaseInput {
+interface DissociateStudentToClassRoomUseCaseInput {
   studentId: string
   classRoomId: string
 }
 
-type AssociateStudentToClassRoomUseCaseOutput = void
+type DissociateStudentToClassRoomUseCaseOutput = void
 
-export class AssociateStudentToClassRoomUseCase {
+export class DissociateStudentToClassRoomUseCase {
   constructor(
     private readonly studentsRepository: StudentsRepository,
     private readonly classRoomsRepository: ClassRoomsRepository,
@@ -17,14 +17,14 @@ export class AssociateStudentToClassRoomUseCase {
   public async execute({
     studentId,
     classRoomId,
-  }: AssociateStudentToClassRoomUseCaseInput): Promise<AssociateStudentToClassRoomUseCaseOutput> {
+  }: DissociateStudentToClassRoomUseCaseInput): Promise<DissociateStudentToClassRoomUseCaseOutput> {
     const student = await this.studentsRepository.studentOfId(studentId)
     if (!student) throw new Error(`Student of id [${studentId}] not found`)
     const classRoom = await this.classRoomsRepository.classroomOfId(classRoomId)
     if (!classRoom)
       throw new Error(`ClassRoom of id [${classRoomId}] not found`)
-    student.associateToClassRoom(classRoom.id)
-    classRoom.addStudent(studentId)
+    student.dissociateClassRoom()
+    classRoom.removeStudent(studentId)
     await this.studentsRepository.update(student)
     await this.classRoomsRepository.update(classRoom)
   }

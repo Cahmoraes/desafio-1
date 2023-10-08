@@ -1,11 +1,11 @@
 import { InMemoryStudentsRepository } from '@/infra/repositories/in-memory/in-memory-students.repository'
 import { Student, StudentProps } from '@/domain/entities/student.entity'
 import { InMemoryClassRoomsRepository } from '@/infra/repositories/in-memory/in-memory-classrooms.repository'
-import { AssociateStudentToClassRoomUseCase } from './associate-student-to-classroom.usecase'
+import { DissociateStudentToClassRoomUseCase } from './dissociate-student-to-classroom.usecase'
 import { ClassRoom, ClassRoomProps } from '@/domain/entities/classroom.entity'
 
-describe('Associate Student to a ClassRoom Use Case', () => {
-  let sut: AssociateStudentToClassRoomUseCase
+describe('Dissociate Student to a ClassRoom Use Case', () => {
+  let sut: DissociateStudentToClassRoomUseCase
   let studentsRepository: InMemoryStudentsRepository
   let classRoomsRepository: InMemoryClassRoomsRepository
   const dummyStudent: StudentProps = {
@@ -29,13 +29,13 @@ describe('Associate Student to a ClassRoom Use Case', () => {
   beforeEach(() => {
     classRoomsRepository = new InMemoryClassRoomsRepository()
     studentsRepository = new InMemoryStudentsRepository()
-    sut = new AssociateStudentToClassRoomUseCase(
+    sut = new DissociateStudentToClassRoomUseCase(
       studentsRepository,
       classRoomsRepository,
     )
   })
 
-  test('Deve associar um Student a um ClassRoom', async () => {
+  test('Deve desassociar um Student a um ClassRoom', async () => {
     const student = Student.create(dummyStudent)
     await studentsRepository.save(student)
     const classRoom = ClassRoom.create(dummyClassRoom, {
@@ -43,16 +43,19 @@ describe('Associate Student to a ClassRoom Use Case', () => {
       number: 23,
       turn: 'M',
     })
+    student.associateToClassRoom(classRoom.id)
+    classRoom.addStudent(student.id.toString())
     await classRoomsRepository.save(classRoom)
     await sut.execute({
       studentId: student.id.toString(),
       classRoomId: classRoom.id.toString(),
     })
-    expect(classRoom.studentsIds.includes(student.id.toString())).toBeTruthy()
-    expect(student.classRoom?.equals(classRoom.id)).toBeTruthy()
+    expect(classRoom.studentsIds.includes(student.id.toString())).toBeFalsy()
+    expect(student.classRoom?.equals(classRoom.id)).toBeFalsy()
+    expect(student.classRoom).toBeUndefined()
   })
 
-  test('Deve gerar erro ao tentar associar um Student inexistente', async () => {
+  test('Deve gerar erro ao tentar desassociar um Student inexistente', async () => {
     await expect(() =>
       sut.execute({
         studentId: 'inexistent_id',
@@ -61,7 +64,7 @@ describe('Associate Student to a ClassRoom Use Case', () => {
     ).rejects.toThrowError('Student of id [inexistent_id] not found')
   })
 
-  test('Deve gerar erro ao tentar associar um Student de uma ClassRoom inexistente', async () => {
+  test('Deve gerar erro ao tentar desassociar um Student de uma ClassRoom inexistente', async () => {
     const student = Student.create(dummyStudent)
     await studentsRepository.save(student)
 

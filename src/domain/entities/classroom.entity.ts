@@ -72,4 +72,9 @@ export class ClassRoom
   public addStudent(aStudentId: string) {
     this._studentsIds.push(aStudentId)
   }
+
+  public removeStudent(aStudentId: string) {
+    const index = this._studentsIds.indexOf(aStudentId)
+    this._studentsIds.splice(index, 1)
+  }
 }
