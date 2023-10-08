@@ -18,7 +18,7 @@ export interface StudentProps {
   blood: BloodType
   medication: string[]
   registrationDate: Date
-  parentId: string
+  parentId?: string
   cpf: string
 }
 
@@ -29,7 +29,7 @@ type CreateStudentProps = Pick<
   name: Name
   cpf: Cpf
   blood: Bloody
-  parentId: string
+  parentId?: string
   allergies: Allergy[]
   medication: Medication[]
 }
@@ -113,12 +113,16 @@ export class Student
     return this.props.medication
   }
 
-  get parentId(): string {
+  get parentId(): string | undefined {
     return this.props.parentId
   }
 
   public associateToParentId(aParentId: string): void {
     this.props.parentId = aParentId
+  }
+
+  public dissociateToParentId(): void {
+    this.props.parentId = undefined
   }
 
   get birthDay(): Date {

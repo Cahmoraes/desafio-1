@@ -116,4 +116,10 @@ export class Parent
   public addStudent(aString: string): void {
     this._studentIds.push(aString)
   }
+
+  public removeStudent(aString: string): void {
+    const index = this._studentIds.indexOf(aString)
+    if (index < 0) return
+    this._studentIds.splice(index, 1)
+  }
 }

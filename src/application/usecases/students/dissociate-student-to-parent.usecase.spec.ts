@@ -1,11 +1,11 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { Parent, ParentProps } from '@/domain/entities/parent.entity'
-import { AssociateStudentToParentUseCase } from './associate-student-to-parent.usecase'
+import { DissociateStudentToParentUseCase } from './dissociate-student-to-parent.usecase'
 import { InMemoryStudentsRepository } from '@/infra/repositories/in-memory/in-memory-students.repository'
 import { Student, StudentProps } from '@/domain/entities/student.entity'
 
-describe('Associate Student to a Parent Use Case', () => {
-  let sut: AssociateStudentToParentUseCase
+describe('Dissociate Student to a Parent Use Case', () => {
+  let sut: DissociateStudentToParentUseCase
   let parentsRepository: InMemoryParentsRepository
   let studentsRepository: InMemoryStudentsRepository
   const dummyParent: ParentProps = {
@@ -31,16 +31,19 @@ describe('Associate Student to a Parent Use Case', () => {
   beforeEach(() => {
     parentsRepository = new InMemoryParentsRepository()
     studentsRepository = new InMemoryStudentsRepository()
-    sut = new AssociateStudentToParentUseCase(
+    sut = new DissociateStudentToParentUseCase(
       studentsRepository,
       parentsRepository,
     )
   })
 
-  test('Deve associar um Student a um Parent', async () => {
+  test('Deve desassociar um Student a um Parent', async () => {
     const student = Student.create(dummyStudent)
-    await studentsRepository.save(student)
     const parent = Parent.create(dummyParent)
+    student.associateToParentId(parent.id.toString())
+    parent.addStudent(student.id.toString())
+
+    await studentsRepository.save(student)
     await parentsRepository.save(parent)
 
     await sut.execute({
@@ -48,8 +51,8 @@ describe('Associate Student to a Parent Use Case', () => {
       parentId: parent.id.toString(),
     })
 
-    expect(parent.studentIds.includes(student.id.toString())).toBeTruthy()
-    expect(student.parentId).toEqual(parent.id.toString())
+    expect(parent.studentIds.includes(student.id.toString())).toBeFalsy()
+    expect(student.parentId).toBeUndefined()
   })
 
   test('Deve gerar erro tentar associar a um Student inexistente', async () => {
