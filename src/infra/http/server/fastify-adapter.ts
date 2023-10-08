@@ -1,5 +1,5 @@
 import Fastify, { FastifyInstance } from 'fastify'
-import { Handler, HttpServer } from './http-server'
+import { HTTPMethodTypes, Handler, HttpServer } from './http-server'
 
 export class FastifyAdapter implements HttpServer {
   private readonly server: FastifyInstance = Fastify()
@@ -14,10 +14,10 @@ export class FastifyAdapter implements HttpServer {
   }
 
   public async on(
-    method: string,
+    method: HTTPMethodTypes,
     path: string,
     handler: Handler,
   ): Promise<void> {
-    throw new Error('Method not implemented.')
+    this.server[method](path, handler)
   }
 }
