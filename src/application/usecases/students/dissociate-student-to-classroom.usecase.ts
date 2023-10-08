@@ -1,3 +1,4 @@
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 import { ClassRoomsRepository } from '@/application/repositories/classrooms.repository'
 import { StudentsRepository } from '@/application/repositories/students.repository'
 
@@ -19,10 +20,15 @@ export class DissociateStudentToClassRoomUseCase {
     classRoomId,
   }: DissociateStudentToClassRoomUseCaseInput): Promise<DissociateStudentToClassRoomUseCaseOutput> {
     const student = await this.studentsRepository.studentOfId(studentId)
-    if (!student) throw new Error(`Student of id [${studentId}] not found`)
+    if (!student) {
+      throw new ResourceNotFoundError(`Student of id [${studentId}] not found`)
+    }
     const classRoom = await this.classRoomsRepository.classroomOfId(classRoomId)
-    if (!classRoom)
-      throw new Error(`ClassRoom of id [${classRoomId}] not found`)
+    if (!classRoom) {
+      throw new ResourceNotFoundError(
+        `ClassRoom of id [${classRoomId}] not found`,
+      )
+    }
     student.dissociateClassRoom()
     classRoom.removeStudent(studentId)
     await this.studentsRepository.update(student)

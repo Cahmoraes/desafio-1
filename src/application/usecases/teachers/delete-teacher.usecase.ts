@@ -1,3 +1,4 @@
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 import { TeachersRepository } from '@/application/repositories/teachers.repository'
 
 interface DeleteTeacherUseCaseInput {
@@ -13,7 +14,9 @@ export class DeleteTeacherUseCase {
     teacherId,
   }: DeleteTeacherUseCaseInput): Promise<DeleteTeacherUseCaseOutput> {
     const teacher = await this.teachersRepository.teacherOfId(teacherId)
-    if (!teacher) throw new Error(`Teacher of id [${teacherId}] not found`)
+    if (!teacher) {
+      throw new ResourceNotFoundError(`Teacher of id [${teacherId}] not found`)
+    }
     await this.teachersRepository.delete(teacher)
   }
 }

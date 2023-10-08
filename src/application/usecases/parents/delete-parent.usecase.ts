@@ -1,3 +1,4 @@
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 import { ParentsRepository } from '@/application/repositories/parents.repository'
 
 interface DeleteParentUseCaseInput {
@@ -13,7 +14,9 @@ export class DeleteParentUseCase {
     parentId,
   }: DeleteParentUseCaseInput): Promise<DeleteParentUseCaseOutput> {
     const parent = await this.parentsRepository.parentOfId(parentId)
-    if (!parent) throw new Error(`Parent of id [${parentId}] not found`)
+    if (!parent) {
+      throw new ResourceNotFoundError(`Parent of id [${parentId}] not found`)
+    }
     await this.parentsRepository.delete(parent)
   }
 }

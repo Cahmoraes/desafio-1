@@ -1,6 +1,7 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { UpdateParentUseCase } from './update-parent.usecase'
 import { Parent, ParentProps } from '@/domain/entities/parent.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Update Parent Use Case', () => {
   let sut: UpdateParentUseCase
@@ -45,6 +46,8 @@ describe('Update Parent Use Case', () => {
   test('Deve gerar um erro ao tentar atualizar um Parent inexistente', async () => {
     await expect(() =>
       sut.execute({ parentId: 'inexistent_id', fields: {} }),
-    ).rejects.toThrowError('Parent of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Parent of id [inexistent_id] not found'),
+    )
   })
 })

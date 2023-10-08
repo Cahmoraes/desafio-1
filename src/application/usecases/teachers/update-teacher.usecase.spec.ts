@@ -1,6 +1,7 @@
 import { InMemoryTeachersRepository } from '@/infra/repositories/in-memory/in-memory-teachers.repository'
 import { UpdateTeacherUseCase } from './update-teacher.usecase'
 import { Teacher, TeacherProps } from '@/domain/entities/teacher.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Update Teacher Use Case', () => {
   let sut: UpdateTeacherUseCase
@@ -44,6 +45,8 @@ describe('Update Teacher Use Case', () => {
   test('Deve gerar um erro ao tentar atualizar um Teacher inexistente', async () => {
     await expect(() =>
       sut.execute({ teacherId: 'inexistent_id', fields: {} }),
-    ).rejects.toThrowError('Teacher of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Teacher of id [inexistent_id] not found'),
+    )
   })
 })

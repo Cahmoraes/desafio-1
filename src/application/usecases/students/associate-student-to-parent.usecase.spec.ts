@@ -3,6 +3,7 @@ import { Parent, ParentProps } from '@/domain/entities/parent.entity'
 import { AssociateStudentToParentUseCase } from './associate-student-to-parent.usecase'
 import { InMemoryStudentsRepository } from '@/infra/repositories/in-memory/in-memory-students.repository'
 import { Student, StudentProps } from '@/domain/entities/student.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Associate Student to a Parent Use Case', () => {
   let sut: AssociateStudentToParentUseCase
@@ -58,7 +59,9 @@ describe('Associate Student to a Parent Use Case', () => {
         studentId: 'inexistent_id',
         parentId: 'inexistent_id',
       }),
-    ).rejects.toThrowError('Student of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Student of id [inexistent_id] not found'),
+    )
   })
 
   test('Deve gerar erro tentar associar a um Parent inexistente', async () => {
@@ -70,6 +73,8 @@ describe('Associate Student to a Parent Use Case', () => {
         studentId: student.id.toString(),
         parentId: 'inexistent_id',
       }),
-    ).rejects.toThrowError('Parent of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Parent of id [inexistent_id] not found'),
+    )
   })
 })

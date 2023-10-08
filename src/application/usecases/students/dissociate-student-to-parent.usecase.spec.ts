@@ -3,6 +3,7 @@ import { Parent, ParentProps } from '@/domain/entities/parent.entity'
 import { DissociateStudentToParentUseCase } from './dissociate-student-to-parent.usecase'
 import { InMemoryStudentsRepository } from '@/infra/repositories/in-memory/in-memory-students.repository'
 import { Student, StudentProps } from '@/domain/entities/student.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Dissociate Student to a Parent Use Case', () => {
   let sut: DissociateStudentToParentUseCase
@@ -73,6 +74,8 @@ describe('Dissociate Student to a Parent Use Case', () => {
         studentId: student.id.toString(),
         parentId: 'inexistent_id',
       }),
-    ).rejects.toThrowError('Parent of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Parent of id [inexistent_id] not found'),
+    )
   })
 })

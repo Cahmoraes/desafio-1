@@ -1,6 +1,7 @@
 import { InMemoryTeachersRepository } from '@/infra/repositories/in-memory/in-memory-teachers.repository'
 import { GetTeacherUseCase } from './get-teacher.usecase'
 import { Teacher, TeacherProps } from '@/domain/entities/teacher.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Get Teacher Use Case', async () => {
   let sut: GetTeacherUseCase
@@ -37,6 +38,8 @@ describe('Get Teacher Use Case', async () => {
   test('Deve gerar um erro ao tentar deletar um Teacher não existente', async () => {
     await expect(() =>
       sut.execute({ teacherId: 'any_id' }),
-    ).rejects.toThrowError('Teacher of id [any_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Teacher of id [any_id] not found'),
+    )
   })
 })

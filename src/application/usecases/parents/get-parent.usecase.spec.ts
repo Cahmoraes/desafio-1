@@ -1,6 +1,7 @@
 import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { GetParentUseCase } from './get-parent.usecase'
 import { Parent, ParentProps } from '@/domain/entities/parent.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Get Parent Use Case', async () => {
   let sut: GetParentUseCase
@@ -35,6 +36,8 @@ describe('Get Parent Use Case', async () => {
   test('Deve gerar um erro ao tentar deletar um Parent não existente', async () => {
     await expect(() =>
       sut.execute({ parentId: 'any_id' }),
-    ).rejects.toThrowError('Parent of id [any_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Parent of id [any_id] not found'),
+    )
   })
 })

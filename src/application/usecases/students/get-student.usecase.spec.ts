@@ -1,6 +1,7 @@
 import { InMemoryStudentsRepository } from '@/infra/repositories/in-memory/in-memory-students.repository'
 import { GetStudentUseCase } from './get-student.usecase'
 import { Student, StudentProps } from '@/domain/entities/student.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Get Student Use Case', async () => {
   let sut: GetStudentUseCase
@@ -38,6 +39,8 @@ describe('Get Student Use Case', async () => {
   test('Deve gerar um erro ao tentar deletar um Student não existente', async () => {
     await expect(() =>
       sut.execute({ studentId: 'any_id' }),
-    ).rejects.toThrowError('Student of id [any_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Student of id [any_id] not found'),
+    )
   })
 })

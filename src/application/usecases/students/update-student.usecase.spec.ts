@@ -1,6 +1,7 @@
 import { InMemoryStudentsRepository } from '@/infra/repositories/in-memory/in-memory-students.repository'
 import { Student, StudentProps } from '@/domain/entities/student.entity'
 import { UpdateStudentUseCase } from './update-student.usecase'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Update Student Use Case', () => {
   let sut: UpdateStudentUseCase
@@ -41,13 +42,17 @@ describe('Update Student Use Case', () => {
     expect(repositoryData[0].name).toEqual('change_name')
     expect(repositoryData[0].lastName).toEqual('change_lastName')
     expect(repositoryData[0].cpf.toString()).toEqual(dummyStudent.cpf)
-    expect(repositoryData[0].parentId.toString()).toEqual(dummyStudent.parentId)
+    expect(repositoryData[0].parentId?.toString()).toEqual(
+      dummyStudent.parentId,
+    )
     expect(repositoryData[0].allergies[0].toString()).toEqual('change_allergy')
   })
 
   test('Deve gerar um erro ao tentar atualizar um Student inexistente', async () => {
     await expect(() =>
       sut.execute({ studentId: 'inexistent_id', fields: {} }),
-    ).rejects.toThrowError('Student of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Student of id [inexistent_id] not found'),
+    )
   })
 })

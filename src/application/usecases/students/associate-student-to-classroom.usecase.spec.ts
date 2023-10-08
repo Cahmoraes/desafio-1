@@ -3,6 +3,7 @@ import { Student, StudentProps } from '@/domain/entities/student.entity'
 import { InMemoryClassRoomsRepository } from '@/infra/repositories/in-memory/in-memory-classrooms.repository'
 import { AssociateStudentToClassRoomUseCase } from './associate-student-to-classroom.usecase'
 import { ClassRoom, ClassRoomProps } from '@/domain/entities/classroom.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Associate Student to a ClassRoom Use Case', () => {
   let sut: AssociateStudentToClassRoomUseCase
@@ -58,7 +59,9 @@ describe('Associate Student to a ClassRoom Use Case', () => {
         studentId: 'inexistent_id',
         classRoomId: 'inexistent_id',
       }),
-    ).rejects.toThrowError('Student of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('Student of id [inexistent_id] not found'),
+    )
   })
 
   test('Deve gerar erro ao tentar associar um Student de uma ClassRoom inexistente', async () => {
@@ -70,6 +73,8 @@ describe('Associate Student to a ClassRoom Use Case', () => {
         studentId: student.id.toString(),
         classRoomId: 'inexistent_id',
       }),
-    ).rejects.toThrowError('ClassRoom of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('ClassRoom of id [inexistent_id] not found'),
+    )
   })
 })
