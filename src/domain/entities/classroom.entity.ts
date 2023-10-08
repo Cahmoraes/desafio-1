@@ -18,6 +18,8 @@ export class ClassRoom
   extends DomainEntity<ClassRoomProps>
   implements Prototype<ClassRoom>
 {
+  private readonly _studentsIds: string[] = []
+
   public static create(
     props: ClassRoomProps,
     anIdOrClassRoomCodeProps?: UniqueEntityId | ClassRoomCodeProps,
@@ -61,5 +63,13 @@ export class ClassRoom
 
   get duration(): number {
     return this.props.duration
+  }
+
+  get studentsIds(): string[] {
+    return this._studentsIds
+  }
+
+  public addStudent(aStudentId: string) {
+    this._studentsIds.push(aStudentId)
   }
 }
