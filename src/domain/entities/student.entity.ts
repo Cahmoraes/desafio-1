@@ -117,6 +117,10 @@ export class Student
     return this.props.parentId
   }
 
+  public associateToParentId(aParentId: string): void {
+    this.props.parentId = aParentId
+  }
+
   get birthDay(): Date {
     return this.props.birthDay
   }
