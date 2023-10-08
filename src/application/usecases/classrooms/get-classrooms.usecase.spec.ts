@@ -1,6 +1,7 @@
 import { InMemoryClassRoomsRepository } from '@/infra/repositories/in-memory/in-memory-classrooms.repository'
 import { GetClassRoomUseCase } from './get-classrooms.usecase'
 import { ClassRoom, ClassRoomProps } from '@/domain/entities/classroom.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Get ClassRoom Use Case', async () => {
   let sut: GetClassRoomUseCase
@@ -39,6 +40,8 @@ describe('Get ClassRoom Use Case', async () => {
   test('Deve gerar um erro ao tentar deletar um ClassRoom não existente', async () => {
     await expect(() =>
       sut.execute({ classroomId: 'any_id' }),
-    ).rejects.toThrowError('ClassRoom of id [any_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('ClassRoom of id [any_id] not found'),
+    )
   })
 })

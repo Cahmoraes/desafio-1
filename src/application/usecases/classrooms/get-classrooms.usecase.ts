@@ -1,3 +1,4 @@
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 import { ClassRoomsRepository } from '@/application/repositories/classrooms.repository'
 import { ClassRoom } from '@/domain/entities/classroom.entity'
 
@@ -17,7 +18,9 @@ export class GetClassRoomUseCase {
   }: GetClassRoomUseCaseInput): Promise<GetClassRoomUseCaseOutput> {
     const classroom = await this.classroomsRepository.classroomOfId(classroomId)
     if (!classroom) {
-      throw new Error(`ClassRoom of id [${classroomId}] not found`)
+      throw new ResourceNotFoundError(
+        `ClassRoom of id [${classroomId}] not found`,
+      )
     }
     return {
       classroom,

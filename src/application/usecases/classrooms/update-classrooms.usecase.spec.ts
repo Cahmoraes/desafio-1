@@ -1,6 +1,7 @@
 import { InMemoryClassRoomsRepository } from '@/infra/repositories/in-memory/in-memory-classrooms.repository'
 import { UpdateClassRoomUseCase } from './update-classrooms.usecase'
 import { ClassRoom, ClassRoomProps } from '@/domain/entities/classroom.entity'
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 
 describe('Update ClassRoom Use Case', () => {
   let sut: UpdateClassRoomUseCase
@@ -39,6 +40,8 @@ describe('Update ClassRoom Use Case', () => {
   test('Deve gerar um erro ao tentar atualizar um ClassRoom inexistente', async () => {
     await expect(() =>
       sut.execute({ classroomId: 'inexistent_id', fields: {} }),
-    ).rejects.toThrowError('ClassRoom of id [inexistent_id] not found')
+    ).rejects.toThrowError(
+      new ResourceNotFoundError('ClassRoom of id [inexistent_id] not found'),
+    )
   })
 })

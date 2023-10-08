@@ -1,3 +1,4 @@
+import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 import { ClassRoomsRepository } from '@/application/repositories/classrooms.repository'
 import { ClassRoomProps } from '@/domain/entities/classroom.entity'
 
@@ -16,7 +17,9 @@ export class UpdateClassRoomUseCase {
   }: UpdateClassRoomUseCaseInput): Promise<UpdateClassRoomUseCaseOutput> {
     const classroom = await this.classroomsRepository.classroomOfId(classroomId)
     if (!classroom) {
-      throw new Error(`ClassRoom of id [${classroomId}] not found`)
+      throw new ResourceNotFoundError(
+        `ClassRoom of id [${classroomId}] not found`,
+      )
     }
     const newClassRoom = classroom.clone(fields)
     await this.classroomsRepository.update(newClassRoom)
