@@ -1,5 +1,6 @@
+import { FastifyReply, FastifyRequest } from 'fastify'
 import { HTTPMethodTypes, HttpServer } from '../server/http-server'
-import { ParentUseCaseFactory } from '../../../application/usecases/parents/factories/parent-usecase.factory'
+import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
 
 export class MainHttpController {
   constructor(
@@ -8,16 +9,15 @@ export class MainHttpController {
   ) {}
 
   public async init(): Promise<void> {
+    console.log('init')
     this.httpServer.on(
-      HTTPMethodTypes.GET,
+      HTTPMethodTypes.POST,
       '/parents',
-      async (req, res): Promise<void> => {
-        const createParentUseCase = this.parentUseCaseFactory
-          .createCreateParentUseCaseFactory()
-          .create()
-        const body = req.body
+      async (req: FastifyRequest, res: FastifyReply): Promise<object> => {
+        const createParentUseCase =
+          this.parentUseCaseFactory.createCreateParentUseCase()
+        const body = req.body as any
         await createParentUseCase.execute(body)
-        Promise.resolve()
       },
     )
   }

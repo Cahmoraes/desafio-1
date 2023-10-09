@@ -3,6 +3,7 @@ import { MainHttpController } from './infra/http/controllers/main-http.controlle
 import { FastifyAdapter } from './infra/http/server/fastify-adapter'
 import { ParentPresenter } from './infra/presenters/parent.presenter'
 import { InMemoryParentsRepository } from './infra/repositories/in-memory/in-memory-parents.repository'
+import getPort from 'get-port'
 
 const parentsRepository = new InMemoryParentsRepository()
 const parentPresenter = new ParentPresenter()
@@ -10,7 +11,16 @@ const parentUseCaseFactory = new ParentUseCaseFactory(
   parentsRepository,
   parentPresenter,
 )
-const server = new FastifyAdapter()
-const mainHttpController = new MainHttpController(server, parentUseCaseFactory)
-mainHttpController.init()
-server.listen()
+
+;(async () => {
+  const port = await getPort()
+  const server = new FastifyAdapter({
+    port,
+  })
+  const mainHttpController = new MainHttpController(
+    server,
+    parentUseCaseFactory,
+  )
+  mainHttpController.init()
+  server.listen()
+})()

@@ -7,7 +7,10 @@ export const enum HTTPMethodTypes {
 }
 
 export interface Handler {
-  (req: object, res: object): void
+  <TRequest = object, TResponse = object>(
+    req: TRequest,
+    res: TResponse,
+  ): Promise<object>
 }
 
 export interface HttpServer {
