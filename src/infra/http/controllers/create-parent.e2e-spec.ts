@@ -6,7 +6,7 @@ import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/p
 import { ParentPresenter } from '@/infra/presenters/parent.presenter'
 import { FastifyAdapter } from '../server/fastify-adapter'
 import { ParentProps } from '@/domain/entities/parent.entity'
-import { FsParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
+import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 
 describe('Create Parent (e2e)', () => {
@@ -25,7 +25,7 @@ describe('Create Parent (e2e)', () => {
     const port = await getPort()
     fastify = new FastifyAdapter({ port })
     testingFSDatabase = new TestingFSDatabase()
-    const parentsRepository = new FsParentsRepository(testingFSDatabase)
+    const parentsRepository = new FSParentsRepository(testingFSDatabase)
     const parentPresenter = new ParentPresenter()
     const parentUseCaseFactory = new ParentUseCaseFactory(
       parentsRepository,
@@ -56,7 +56,6 @@ describe('Create Parent (e2e)', () => {
       `/parents/${id}`,
     )
 
-    console.log(responseGetParent.body)
     expect(responseGetParent.statusCode).toBe(200)
     expect(responseGetParent.body.parent).toMatchObject({
       id,

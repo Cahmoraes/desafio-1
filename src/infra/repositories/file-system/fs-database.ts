@@ -37,7 +37,7 @@ export class FSDatabase {
     }
   }
 
-  private async persistDTOsInFile(objects: any[]): Promise<void> {
+  private async persistDTOsInFile(objects: object[]): Promise<void> {
     const data = JSON.stringify(objects)
     await writeFile(this._path, data, 'utf-8')
   }
@@ -65,7 +65,7 @@ export class FSDatabase {
     )
   }
 
-  public async update(anId: string, data: any): Promise<void> {
+  public async update(anId: string, data: object): Promise<void> {
     const persistedDTOs = await this.persistedDTOs()
     const indexToUpdate = persistedDTOs.findIndex(
       (anObject) => anObject.id === anId,

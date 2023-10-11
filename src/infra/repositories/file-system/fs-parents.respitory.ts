@@ -3,7 +3,7 @@ import { Parent } from '@/domain/entities/parent.entity'
 import { FSDatabase } from './fs-database'
 import { ParentMapper } from '@/application/mappers/parent.mapper'
 
-export class FsParentsRepository implements ParentsRepository {
+export class FSParentsRepository implements ParentsRepository {
   private database: FSDatabase
 
   constructor(database: FSDatabase) {
