@@ -15,16 +15,16 @@ const parentUseCaseFactory = new ParentUseCaseFactory(
 )
 
 const fsParentsRepository = new FsParentsRepository()
-fsParentsRepository.save(
-  Parent.create({
-    name: 'any_name',
-    lastName: 'any_sobrenome',
-    phones: ['0123456789', '1234567890'],
-    emails: ['any_email'],
-    address: ['any_address'],
-    cpf: 'any_cpf',
-  }),
-)
+// fsParentsRepository.save(
+//   Parent.create({
+//     name: 'any_name',
+//     lastName: 'any_sobrenome',
+//     phones: ['0123456789', '1234567890'],
+//     emails: ['any_email'],
+//     address: ['any_address'],
+//     cpf: 'any_cpf',
+//   }),
+// )
 
 // fsParentsRepository.save(
 //   Parent.create({

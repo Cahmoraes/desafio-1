@@ -1,63 +1,49 @@
-import {
-  existsSync,
-  createWriteStream,
-  createReadStream,
-  writeFileSync,
-  ReadStream,
-} from 'node:fs'
-import { join } from 'node:path'
+import { existsSync } from 'fs'
+import { readFile, writeFile } from 'fs/promises'
+import { join } from 'path'
 
 export class FSDatabase {
+  private readonly ITEMS_PER_PAGE = 20
   private readonly FILE_EXTENSION = '.json'
   private readonly _path: string
   private readonly BASE_PATH = '../../database/'
-  private readonly _readStream: ReadStream
-  private readonly ITEMS_PER_PAGE = 20
 
   constructor(private readonly databaseName: string) {
     this._path = join(
       __dirname,
       `${this.BASE_PATH}${databaseName}${this.FILE_EXTENSION}`,
     )
-    this._readStream = createReadStream(this._path, 'utf-8')
   }
 
-  public createIfNotExists(): void {
-    if (existsSync(this._path)) return
-    writeFileSync(this._path, '[]')
+  public async createIfNotExists(): Promise<void> {
+    if (await existsSync(this._path)) return
+    await writeFile(this._path, '[]', 'utf-8')
   }
 
-  public async save(anObject: object) {
-    const parentsDto = await this.persistedDTOs()
-    parentsDto.push(anObject)
-    console.log(parentsDto)
-    this.persistDTOsInFile(parentsDto)
+  public async save(anObject: object): Promise<void> {
+    const persistedDTOs = await this.persistedDTOs()
+    persistedDTOs.push(anObject)
+    await this.persistDTOsInFile(persistedDTOs)
   }
 
-  private get readStream(): ReadStream {
-    return this._readStream
+  private async persistedDTOs(): Promise<any[]> {
+    const data = await readFile(this._path, 'utf-8')
+    return JSON.parse(data)
   }
 
-  private persistedDTOs(): Promise<any[]> {
-    let streams = ''
-    return new Promise((resolve) => {
-      this.readStream.on('data', (chunk: string) => {
-        streams += chunk
-      })
-      this.readStream.on('end', () => {
-        resolve(JSON.parse(streams))
-      })
-    })
-  }
-
-  private persistDTOsInFile(objects: any[]) {
+  private async persistDTOsInFile(objects: any[]): Promise<void> {
     const data = JSON.stringify(objects)
-    createWriteStream(this._path, 'utf-8').write(data)
+    await writeFile(this._path, data, 'utf-8')
   }
 
   public async findById<TResult>(anId: string): Promise<TResult | null> {
-    const persistedDTOs = await this.persistedDTOs()
-    return persistedDTOs.find((anObject) => anObject.id === anId)
+    try {
+      const persistedDTOs = await this.persistedDTOs()
+      return persistedDTOs.find((anObject) => anObject.id === anId) || null
+    } catch (error) {
+      console.error(error)
+      return null
+    }
   }
 
   public async delete(anId: string): Promise<void> {
@@ -67,14 +53,31 @@ export class FSDatabase {
     )
     if (indexToRemove === -1) return
     persistedDTOs.splice(indexToRemove, 1)
-    this.persistDTOsInFile(persistedDTOs)
-    this.persistDTOsInFile(persistedDTOs)
+    await this.persistDTOsInFile(persistedDTOs)
   }
 
   public async getAll<TResult>(page = 1): Promise<TResult[]> {
-    return (await this.persistedDTOs()).slice(
+    const persistedDTOs = await this.persistedDTOs()
+    return persistedDTOs.slice(
       (page - 1) * this.ITEMS_PER_PAGE,
       page * this.ITEMS_PER_PAGE,
     )
+  }
+
+  public async update(anId: string, data: any): Promise<void> {
+    const persistedDTOs = await this.persistedDTOs()
+    const indexToUpdate = persistedDTOs.findIndex(
+      (anObject) => anObject.id === anId,
+    )
+    if (indexToUpdate === -1) return
+    persistedDTOs[indexToUpdate] = {
+      id: anId,
+      ...data,
+    }
+    await this.persistDTOsInFile(persistedDTOs)
+  }
+
+  public async truncate(): Promise<void> {
+    await writeFile(this._path, '[]', 'utf-8')
   }
 }

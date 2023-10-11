@@ -15,7 +15,14 @@ export class FsParentsRepository implements ParentsRepository {
   }
 
   async update(aParent: Parent): Promise<void> {
-    throw new Error('Method not implemented.')
+    this.database.update(aParent.id.toString(), {
+      name: aParent.name,
+      lastName: aParent.lastName,
+      phones: aParent.phones.map(String),
+      emails: aParent.emails.map(String),
+      address: aParent.address.map(String),
+      cpf: aParent.cpf.toString(),
+    })
   }
 
   async delete(aParent: Parent): Promise<void> {
