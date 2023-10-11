@@ -2,12 +2,12 @@ import getPort from 'get-port'
 import request from 'supertest'
 import { MainHttpController } from './main-http.controller'
 import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
-import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-memory-parents.repository'
 import { ParentPresenter } from '@/infra/presenters/parent.presenter'
 import { FastifyAdapter } from '../server/fastify-adapter'
 import { ParentProps } from '@/domain/entities/parent.entity'
+import { FsParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 
-describe('Authenticate (e2e)', () => {
+describe('Create Parent (e2e)', () => {
   let fastify: FastifyAdapter
   const dummyParent: ParentProps = {
     name: 'any_name',
@@ -20,9 +20,8 @@ describe('Authenticate (e2e)', () => {
 
   beforeAll(async () => {
     const port = await getPort()
-    console.log({ port })
     fastify = new FastifyAdapter({ port })
-    const parentsRepository = new InMemoryParentsRepository()
+    const parentsRepository = new FsParentsRepository()
     const parentPresenter = new ParentPresenter()
     const parentUseCaseFactory = new ParentUseCaseFactory(
       parentsRepository,
@@ -45,6 +44,15 @@ describe('Authenticate (e2e)', () => {
     const response = await request(fastify.server)
       .post('/parents')
       .send(dummyParent)
+
     expect(response.statusCode).toBe(200)
+
+    const { id } = response.body
+    const responseGetParent = await request(fastify.server).get(
+      `/parents/${id}`,
+    )
+
+    console.log(responseGetParent.body)
+    expect(responseGetParent.statusCode).toBe(200)
   })
 })

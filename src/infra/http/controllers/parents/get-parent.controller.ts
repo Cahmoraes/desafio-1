@@ -1,7 +1,7 @@
 import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
 import { HandlerParams } from '../../server/handler-params/handler-params'
 
-export class CreateParentController {
+export class GetParentController {
   constructor(private readonly parentUseCaseFactory: ParentUseCaseFactory) {
     this.bindMethod()
   }
@@ -11,9 +11,12 @@ export class CreateParentController {
   }
 
   public async handleRequest({ request }: HandlerParams) {
+    console.log('handleRequest')
     const createParentUseCase =
-      this.parentUseCaseFactory.createCreateParentUseCase()
-    const body = request.body as any
-    return await createParentUseCase.execute(body)
+      this.parentUseCaseFactory.createGetParentUseCase()
+    const params = request.params as any
+    return await createParentUseCase.execute({
+      parentId: params.parentId,
+    })
   }
 }

@@ -27,8 +27,12 @@ export class FSDatabase {
   }
 
   private async persistedDTOs(): Promise<any[]> {
-    const data = await readFile(this._path, 'utf-8')
-    return JSON.parse(data)
+    try {
+      const data = await readFile(this._path, 'utf-8')
+      return JSON.parse(data)
+    } catch {
+      return []
+    }
   }
 
   private async persistDTOsInFile(objects: any[]): Promise<void> {
@@ -37,13 +41,8 @@ export class FSDatabase {
   }
 
   public async findById<TResult>(anId: string): Promise<TResult | null> {
-    try {
-      const persistedDTOs = await this.persistedDTOs()
-      return persistedDTOs.find((anObject) => anObject.id === anId) || null
-    } catch (error) {
-      console.error(error)
-      return null
-    }
+    const persistedDTOs = await this.persistedDTOs()
+    return persistedDTOs.find((anObject) => anObject.id === anId) ?? []
   }
 
   public async delete(anId: string): Promise<void> {
