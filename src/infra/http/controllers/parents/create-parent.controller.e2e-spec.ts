@@ -9,6 +9,7 @@ import { ParentProps } from '@/domain/entities/parent.entity'
 import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
+import { makeParamWithId } from '@/tests/utils/make-param-with-id'
 
 describe('Create Parent (e2e)', () => {
   let fastify: FastifyAdapter
@@ -53,8 +54,9 @@ describe('Create Parent (e2e)', () => {
     expect(response.statusCode).toBe(200)
 
     const { id } = response.body
-    const pathWithId = ParentsRoutes.GET.replace(':parentId', id)
-    const responseGetParent = await request(fastify.server).get(pathWithId)
+    const responseGetParent = await request(fastify.server).get(
+      makeParamWithId(ParentsRoutes.GET, id),
+    )
 
     expect(responseGetParent.statusCode).toBe(200)
     expect(responseGetParent.body.parent).toMatchObject({

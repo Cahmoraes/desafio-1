@@ -9,6 +9,7 @@ import { ParentProps } from '@/domain/entities/parent.entity'
 import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
+import { makeParamWithId } from '@/tests/utils/make-param-with-id'
 
 describe('Create Parent (e2e)', () => {
   let fastify: FastifyAdapter
@@ -44,10 +45,6 @@ describe('Create Parent (e2e)', () => {
   afterAll(async () => {
     await fastify.close()
   })
-
-  function makeParamWithId(aPath: string, anId: string) {
-    return aPath.replace(':parentId', anId)
-  }
 
   test('Deletar criar um Parent', async () => {
     const createParentResponse = await request(fastify.server)
