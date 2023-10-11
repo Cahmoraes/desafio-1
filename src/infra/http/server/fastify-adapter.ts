@@ -1,6 +1,7 @@
 import { Server } from 'node:http'
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { HTTPMethodTypes, Handler, HttpServer } from './http-server'
+import { FastifyHandlerParams } from './handler-params/fastify-handler-params'
 
 export interface FastifyAdapterProps {
   port: number
@@ -28,7 +29,7 @@ export class FastifyAdapter implements HttpServer {
     this.httpServer[method](
       path,
       async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
-        const response = await handler(request, reply)
+        const response = await handler(new FastifyHandlerParams(request))
         return reply.status(200).send(response)
       },
     )

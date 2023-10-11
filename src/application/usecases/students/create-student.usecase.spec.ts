@@ -52,7 +52,7 @@ describe('Create Student Use Case', () => {
       dummyStudent.registrationDate,
     )
 
-    expect(studentsRepository.data.toArray()[0].parentId.toString()).toEqual(
+    expect(studentsRepository.data.toArray()[0].parentId?.toString()).toEqual(
       dummyStudent.parentId,
     )
 

@@ -10,7 +10,7 @@ interface CreateStudentUseCaseInput {
   blood: BloodType
   medication: string[]
   registrationDate: Date
-  parentId: string
+  parentId?: string
   cpf: string
 }
 

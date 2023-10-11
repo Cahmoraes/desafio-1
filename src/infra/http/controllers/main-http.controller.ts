@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { HandlerParams } from '../server/handler-params/handler-params'
 import { HTTPMethodTypes, HttpServer } from '../server/http-server'
 import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
 
@@ -13,11 +13,11 @@ export class MainHttpController {
     this.httpServer.on(
       HTTPMethodTypes.POST,
       '/parents',
-      async (req: FastifyRequest, res: FastifyReply): Promise<object> => {
+      async ({ request }: HandlerParams): Promise<unknown> => {
         const createParentUseCase =
           this.parentUseCaseFactory.createCreateParentUseCase()
-        const body = req.body as any
-        await createParentUseCase.execute(body)
+        const body = request.body as any
+        return await createParentUseCase.execute(body)
       },
     )
   }

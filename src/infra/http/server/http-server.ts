@@ -1,3 +1,5 @@
+import { HandlerParams } from './handler-params/handler-params'
+
 export const enum HTTPMethodTypes {
   GET = 'get',
   POST = 'post',
@@ -7,13 +9,10 @@ export const enum HTTPMethodTypes {
 }
 
 export interface Handler {
-  <TRequest = object, TResponse = object>(
-    req: TRequest,
-    res: TResponse,
-  ): Promise<object>
+  (handlerPrams: HandlerParams): Promise<unknown>
 }
 
 export interface HttpServer {
   listen(): Promise<void>
-  on(method: HTTPMethodTypes, path: string, handler: Handler): Promise<void>
+  on(method: HTTPMethodTypes, path: string, handler: Handler): Promise<unknown>
 }

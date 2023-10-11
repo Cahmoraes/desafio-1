@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "npx tsx --watch ./src/index.ts",
     "test": "npx vitest",
     "test:cov": "npx vitest run --coverage",
     "test:cov:watch": "npx vitest --coverage",
@@ -22,6 +23,7 @@
     "get-port": "^7.0.0",
     "prettier": "^3.0.3",
     "supertest": "^6.3.3",
+    "tsx": "^3.13.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6",
     "vitest-tsconfig-paths": "^3.4.1"
