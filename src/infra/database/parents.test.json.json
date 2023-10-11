@@ -1,11 +1,1 @@
-[
-  {
-    "id": "707efc1d-c182-4455-b17e-0ec0c4afef87",
-    "name": "change_name",
-    "lastName": "change_sobrenome",
-    "phones": ["0123456789", "1234567890"],
-    "emails": ["any_email"],
-    "address": ["any_address"],
-    "cpf": "any_cpf"
-  }
-]
+[{"id":"ac0840c2-5831-4311-a8fe-8a670c357086","name":"change_name","lastName":"change_sobrenome","phones":["0123456789","1234567890"],"emails":["any_email"],"address":["any_address"],"cpf":"any_cpf"}]

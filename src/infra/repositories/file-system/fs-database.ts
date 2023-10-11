@@ -44,7 +44,7 @@ export class FSDatabase {
 
   public async findById<TResult>(anId: string): Promise<TResult | null> {
     const persistedDTOs = await this.persistedDTOs()
-    return persistedDTOs.find((anObject) => anObject.id === anId) ?? []
+    return persistedDTOs.find((anObject) => anObject.id === anId) ?? null
   }
 
   public async delete(anId: string): Promise<void> {
