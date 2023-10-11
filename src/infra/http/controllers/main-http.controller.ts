@@ -2,6 +2,7 @@ import { HTTPMethodTypes, HttpServer } from '../server/http-server'
 import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
 import { CreateParentController } from './parents/create-parent.controller'
 import { GetParentController } from './parents/get-parent.controller'
+import { ParentsRoutes } from './parents/parents-routes.enum'
 
 export class MainHttpController {
   constructor(
@@ -17,7 +18,7 @@ export class MainHttpController {
   private registerCreateParentController() {
     this.httpServer.on(
       HTTPMethodTypes.POST,
-      '/parents',
+      ParentsRoutes.CREATE,
       new CreateParentController(this.parentUseCaseFactory).handleRequest,
     )
   }
@@ -25,7 +26,7 @@ export class MainHttpController {
   private registerGetParentController() {
     this.httpServer.on(
       HTTPMethodTypes.GET,
-      '/parents/:parentId',
+      ParentsRoutes.GET,
       new GetParentController(this.parentUseCaseFactory).handleRequest,
     )
   }

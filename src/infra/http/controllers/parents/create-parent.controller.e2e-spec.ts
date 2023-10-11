@@ -1,13 +1,14 @@
 import getPort from 'get-port'
 import request from 'supertest'
 import { setTimeout } from 'node:timers/promises'
-import { MainHttpController } from './main-http.controller'
+import { MainHttpController } from '../main-http.controller'
 import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
 import { ParentPresenter } from '@/infra/presenters/parent.presenter'
-import { FastifyAdapter } from '../server/fastify-adapter'
+import { FastifyAdapter } from '../../server/fastify-adapter'
 import { ParentProps } from '@/domain/entities/parent.entity'
 import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
+import { ParentsRoutes } from './parents-routes.enum'
 
 describe('Create Parent (e2e)', () => {
   let fastify: FastifyAdapter
@@ -46,15 +47,14 @@ describe('Create Parent (e2e)', () => {
 
   test('Deve criar um Parent', async () => {
     const response = await request(fastify.server)
-      .post('/parents')
+      .post(ParentsRoutes.CREATE)
       .send(dummyParent)
 
     expect(response.statusCode).toBe(200)
 
     const { id } = response.body
-    const responseGetParent = await request(fastify.server).get(
-      `/parents/${id}`,
-    )
+    const pathWithId = ParentsRoutes.GET.replace(':parentId', id)
+    const responseGetParent = await request(fastify.server).get(pathWithId)
 
     expect(responseGetParent.statusCode).toBe(200)
     expect(responseGetParent.body.parent).toMatchObject({
