@@ -12,11 +12,11 @@ export class FsParentsRepository implements ParentsRepository {
   }
 
   async save(aParent: Parent): Promise<void> {
-    this.database.save(ParentMapper.toPersist(aParent))
+    await this.database.save(ParentMapper.toPersist(aParent))
   }
 
   async update(aParent: Parent): Promise<void> {
-    this.database.update(aParent.id.toString(), {
+    await this.database.update(aParent.id.toString(), {
       name: aParent.name,
       lastName: aParent.lastName,
       phones: aParent.phones.map(String),
@@ -27,7 +27,7 @@ export class FsParentsRepository implements ParentsRepository {
   }
 
   async delete(aParent: Parent): Promise<void> {
-    this.database.delete(aParent.id.toString())
+    await this.database.delete(aParent.id.toString())
   }
 
   async parentOfId(aParentId: string): Promise<Parent | null> {

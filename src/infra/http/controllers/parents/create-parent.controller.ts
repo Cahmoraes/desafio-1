@@ -14,6 +14,6 @@ export class CreateParentController {
     const createParentUseCase =
       this.parentUseCaseFactory.createCreateParentUseCase()
     const body = request.body as any
-    return await createParentUseCase.execute(body)
+    return createParentUseCase.execute(body)
   }
 }
