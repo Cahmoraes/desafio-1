@@ -4,9 +4,10 @@ import { FSDatabase } from './fs-database'
 import { ParentMapper } from '@/application/mappers/parent.mapper'
 
 export class FsParentsRepository implements ParentsRepository {
-  private database: FSDatabase = new FSDatabase('parents')
+  private database: FSDatabase
 
-  constructor() {
+  constructor(database: FSDatabase) {
+    this.database = database
     this.database.createIfNotExists()
   }
 

@@ -6,9 +6,11 @@ import { ParentPresenter } from '@/infra/presenters/parent.presenter'
 import { FastifyAdapter } from '../server/fastify-adapter'
 import { ParentProps } from '@/domain/entities/parent.entity'
 import { FsParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
+import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 
 describe('Create Parent (e2e)', () => {
   let fastify: FastifyAdapter
+  let testingFSDatabase: TestingFSDatabase
   const dummyParent: ParentProps = {
     name: 'any_name',
     lastName: 'any_sobrenome',
@@ -21,7 +23,8 @@ describe('Create Parent (e2e)', () => {
   beforeAll(async () => {
     const port = await getPort()
     fastify = new FastifyAdapter({ port })
-    const parentsRepository = new FsParentsRepository()
+    testingFSDatabase = new TestingFSDatabase()
+    const parentsRepository = new FsParentsRepository(testingFSDatabase)
     const parentPresenter = new ParentPresenter()
     const parentUseCaseFactory = new ParentUseCaseFactory(
       parentsRepository,

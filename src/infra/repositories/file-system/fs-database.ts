@@ -1,5 +1,4 @@
-import { existsSync } from 'fs'
-import { readFile, writeFile } from 'fs/promises'
+import { readFile, writeFile, access } from 'node:fs/promises'
 import { join } from 'path'
 
 export class FSDatabase {
@@ -11,13 +10,16 @@ export class FSDatabase {
   constructor(private readonly databaseName: string) {
     this._path = join(
       __dirname,
-      `${this.BASE_PATH}${databaseName}${this.FILE_EXTENSION}`,
+      `${this.BASE_PATH}${this.databaseName}${this.FILE_EXTENSION}`,
     )
   }
 
   public async createIfNotExists(): Promise<void> {
-    if (await existsSync(this._path)) return
-    await writeFile(this._path, '[]', 'utf-8')
+    try {
+      await access(this._path)
+    } catch {
+      await writeFile(this._path, '[]', 'utf-8')
+    }
   }
 
   public async save(anObject: object): Promise<void> {
