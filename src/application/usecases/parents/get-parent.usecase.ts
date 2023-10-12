@@ -1,17 +1,19 @@
 import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 import { ParentsRepository } from '@/application/repositories/parents.repository'
 import { Parent } from '@/domain/entities/parent.entity'
+import { Presenter } from '@/infra/presenters/presenter'
 
 interface GetParentUseCaseInput {
   parentId: string
 }
 
-interface GetParentUseCaseOutput {
-  parent: Parent
-}
+type GetParentUseCaseOutput = object
 
 export class GetParentUseCase {
-  constructor(private readonly parentsRepository: ParentsRepository) {}
+  constructor(
+    private readonly parentsRepository: ParentsRepository,
+    private readonly parentPresenter: Presenter<Parent>,
+  ) {}
 
   public async execute({
     parentId,
@@ -20,8 +22,6 @@ export class GetParentUseCase {
     if (!parent) {
       throw new ResourceNotFoundError(`Parent of id [${parentId}] not found`)
     }
-    return {
-      parent,
-    }
+    return this.parentPresenter.present(parent)
   }
 }

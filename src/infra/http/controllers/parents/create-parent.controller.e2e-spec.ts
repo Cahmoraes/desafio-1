@@ -1,6 +1,5 @@
 import getPort from 'get-port'
 import request from 'supertest'
-import { setTimeout } from 'node:timers/promises'
 import { MainHttpController } from '../main-http.controller'
 import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
 import { ParentPresenter } from '@/infra/presenters/parent.presenter'
@@ -59,7 +58,7 @@ describe('Create Parent (e2e)', () => {
     )
 
     expect(responseGetParent.statusCode).toBe(200)
-    expect(responseGetParent.body.parent).toMatchObject({
+    expect(responseGetParent.body).toMatchObject({
       id,
       name: dummyParent.name,
       lastName: dummyParent.lastName,

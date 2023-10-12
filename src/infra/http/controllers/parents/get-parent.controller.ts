@@ -11,11 +11,9 @@ export class GetParentController {
   }
 
   public async handleRequest({ request }: HandlerParams) {
-    console.log('handleRequest')
-    const createParentUseCase =
-      this.parentUseCaseFactory.createGetParentUseCase()
+    const getParentUseCase = this.parentUseCaseFactory.createGetParentUseCase()
     const params = request.params as any
-    return await createParentUseCase.execute({
+    return await getParentUseCase.execute({
       parentId: params.parentId,
     })
   }

@@ -26,7 +26,7 @@ export class ParentUseCaseFactory {
   }
 
   public createGetParentUseCase(): GetParentUseCase {
-    return new GetParentUseCase(this.parentsRepository)
+    return new GetParentUseCase(this.parentsRepository, this.parentPresenter)
   }
 
   public createUpdateParentUseCase(): UpdateParentUseCase {

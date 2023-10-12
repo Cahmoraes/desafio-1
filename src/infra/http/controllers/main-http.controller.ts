@@ -4,6 +4,7 @@ import { CreateParentController } from './parents/create-parent.controller'
 import { GetParentController } from './parents/get-parent.controller'
 import { ParentsRoutes } from './parents/parents-routes.enum'
 import { DeleteParentController } from './parents/delete-parent.controller'
+import { UpdateParentController } from './parents/update-parent.controller'
 
 export class MainHttpController {
   constructor(
@@ -15,6 +16,7 @@ export class MainHttpController {
     this.registerCreateParentController()
     this.registerGetParentController()
     this.registerDeleteParentController()
+    this.registerUpdateParentController()
   }
 
   private registerCreateParentController(): void {
@@ -38,6 +40,14 @@ export class MainHttpController {
       HTTPMethodTypes.DELETE,
       ParentsRoutes.DELETE,
       new DeleteParentController(this.parentUseCaseFactory).handleRequest,
+    )
+  }
+
+  private registerUpdateParentController(): void {
+    this.httpServer.on(
+      HTTPMethodTypes.PUT,
+      ParentsRoutes.PUT,
+      new UpdateParentController(this.parentUseCaseFactory).handleRequest,
     )
   }
 }

@@ -12,7 +12,7 @@ export class FSParentsRepository implements ParentsRepository {
   }
 
   async save(aParent: Parent): Promise<void> {
-    await this.database.save(ParentMapper.toPersist(aParent))
+    await this.database.save(ParentMapper.toDto(aParent))
   }
 
   async update(aParent: Parent): Promise<void> {
@@ -31,7 +31,8 @@ export class FSParentsRepository implements ParentsRepository {
   }
 
   async parentOfId(aParentId: string): Promise<Parent | null> {
-    return this.database.findById(aParentId)
+    const persistedParent = (await this.database.findById(aParentId)) as any
+    return Parent.restore(persistedParent, persistedParent.id)
   }
 
   async allParents(page: number): Promise<Parent[]> {

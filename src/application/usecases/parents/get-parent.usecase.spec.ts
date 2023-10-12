@@ -2,6 +2,7 @@ import { InMemoryParentsRepository } from '@/infra/repositories/in-memory/in-mem
 import { GetParentUseCase } from './get-parent.usecase'
 import { Parent, ParentProps } from '@/domain/entities/parent.entity'
 import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
+import { ParentPresenter } from '@/infra/presenters/parent.presenter'
 
 describe('Get Parent Use Case', async () => {
   let sut: GetParentUseCase
@@ -17,7 +18,7 @@ describe('Get Parent Use Case', async () => {
 
   beforeEach(() => {
     parentsRepository = new InMemoryParentsRepository()
-    sut = new GetParentUseCase(parentsRepository)
+    sut = new GetParentUseCase(parentsRepository, new ParentPresenter())
   })
 
   test('Deve listar Parents', async () => {
@@ -26,9 +27,9 @@ describe('Get Parent Use Case', async () => {
       parentsRepository.save(parent)
     }
 
-    const { parent } = await sut.execute({
+    const parent = (await sut.execute({
       parentId: 'id-20',
-    })
+    })) as any
 
     expect(parent.id.toString()).toBe('id-20')
   })

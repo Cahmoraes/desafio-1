@@ -21,7 +21,7 @@ describe('fs-database', () => {
 
   test('deve criar um registro no banco de dados', async () => {
     const parent = Parent.create(dummyParent)
-    await sut.save(ParentMapper.toPersist(parent))
+    await sut.save(ParentMapper.toDto(parent))
     const savedParent = await sut.findById(parent.id.toString())
     expect(savedParent).toMatchObject({
       id: parent.id.toString(),
@@ -36,7 +36,7 @@ describe('fs-database', () => {
 
   test('deve deletar um registro no banco de dados', async () => {
     const parent = Parent.create(dummyParent)
-    await sut.save(ParentMapper.toPersist(parent))
+    await sut.save(ParentMapper.toDto(parent))
     await sut.delete(parent.id.toString())
     const savedParent = await sut.findById(parent.id.toString())
     expect(savedParent).toBeNull()
@@ -44,7 +44,7 @@ describe('fs-database', () => {
 
   test('deve retornar uma lista de todos os registros no banco de dados', async () => {
     const parent = Parent.create(dummyParent)
-    await sut.save(ParentMapper.toPersist(parent))
+    await sut.save(ParentMapper.toDto(parent))
     const savedParents = await sut.getAll()
     expect(savedParents).toHaveLength(1)
     expect(savedParents[0]).toMatchObject({
@@ -60,7 +60,7 @@ describe('fs-database', () => {
 
   test('deve retornar um registro pelo id', async () => {
     const parent = Parent.create(dummyParent)
-    await sut.save(ParentMapper.toPersist(parent))
+    await sut.save(ParentMapper.toDto(parent))
     const savedParent = await sut.findById(parent.id.toString())
     expect(savedParent).toMatchObject({
       id: parent.id.toString(),
@@ -75,7 +75,7 @@ describe('fs-database', () => {
 
   test('deve atualizar um registro no banco de dados', async () => {
     const parent = Parent.create(dummyParent)
-    await sut.save(ParentMapper.toPersist(parent))
+    await sut.save(ParentMapper.toDto(parent))
     await sut.update(parent.id.toString(), {
       name: 'change_name',
       lastName: 'change_sobrenome',

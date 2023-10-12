@@ -37,15 +37,23 @@ export class Parent
   ) {
     this.validate(props)
     return new Parent(
-      {
-        name: Name.create(props.name, props.lastName),
-        phones: props.phones.map(Phone.create),
-        emails: props.emails.map(Email.create),
-        address: props.address.map(Address.create),
-        cpf: Cpf.create(props.cpf),
-      },
+      Parent.performCreate(props),
       new UniqueEntityId(anIdOrString),
     )
+  }
+
+  private static performCreate(props: ParentProps): CreateParentProps {
+    return {
+      name: Name.create(props.name, props.lastName),
+      phones: props.phones.map(Phone.create),
+      emails: props.emails.map(Email.create),
+      address: props.address.map(Address.create),
+      cpf: Cpf.create(props.cpf),
+    }
+  }
+
+  public static restore(props: ParentProps, anId: string) {
+    return new Parent(Parent.performCreate(props), anId)
   }
 
   private static validate(props: ParentProps): void {

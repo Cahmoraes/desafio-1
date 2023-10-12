@@ -11,7 +11,7 @@ export interface ParentDTO {
 }
 
 export class ParentMapper {
-  public static toPersist(aParent: Parent): ParentDTO {
+  public static toDto(aParent: Parent): ParentDTO {
     return {
       id: aParent.id.toString(),
       name: aParent.name,
