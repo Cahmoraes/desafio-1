@@ -23,6 +23,18 @@ export class FSParentsRepository implements ParentsRepository {
     await this.performUpdate(persistedParent)
   }
 
+  private async retry(
+    fn: () => Promise<any>,
+    retries = 3,
+    milliseconds = 1000,
+  ): Promise<any> {
+    await setTimeout(retries * milliseconds)
+    const persistedParent = await fn()
+    if (persistedParent) return persistedParent
+    if (--retries > 0) return this.retry(fn, retries)
+    return persistedParent
+  }
+
   private async performUpdate(aParent: Parent): Promise<void> {
     await this.database.update(aParent.id.toString(), {
       name: aParent.name,
@@ -37,18 +49,6 @@ export class FSParentsRepository implements ParentsRepository {
 
   async delete(aParent: Parent): Promise<void> {
     await this.database.delete(aParent.id.toString())
-  }
-
-  private async retry(
-    fn: () => Promise<any>,
-    retries = 3,
-    milliseconds = 1000,
-  ): Promise<any> {
-    await setTimeout(retries * milliseconds)
-    const persistedParent = await fn()
-    if (persistedParent) return persistedParent
-    if (--retries > 0) return this.retry(fn, retries)
-    return persistedParent
   }
 
   async parentOfId(aParentId: string): Promise<Parent | null> {
