@@ -14,7 +14,7 @@ export class UpdateParentController {
     const updateUseCase = this.parentUseCaseFactory.createUpdateParentUseCase()
     const body = request.body as any
     const params = request.params as any
-    return updateUseCase.execute({
+    await updateUseCase.execute({
       parentId: params.parentId,
       fields: body,
     })

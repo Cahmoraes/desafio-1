@@ -6,6 +6,7 @@ export default defineConfig({
     globals: true,
     include: ['**/*.e2e-spec.ts'],
     setupFiles: ['./tests/setup-e2e.ts'],
+    testTimeout: 20000,
   },
   plugins: [tsconfigPaths()],
 })

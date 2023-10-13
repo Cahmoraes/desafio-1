@@ -14,7 +14,7 @@ export class DeleteParentController {
     const createParentUseCase =
       this.parentUseCaseFactory.createDeleteParentUseCase()
     const params = request.params as any
-    return createParentUseCase.execute({
+    await createParentUseCase.execute({
       parentId: params.parentId,
     })
   }

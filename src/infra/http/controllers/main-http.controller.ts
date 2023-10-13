@@ -13,38 +13,38 @@ export class MainHttpController {
   ) {}
 
   public async init(): Promise<void> {
-    this.registerCreateParentController()
-    this.registerGetParentController()
-    this.registerDeleteParentController()
-    this.registerUpdateParentController()
+    await this.registerCreateParentController()
+    await this.registerGetParentController()
+    await this.registerDeleteParentController()
+    await this.registerUpdateParentController()
   }
 
-  private registerCreateParentController(): void {
-    this.httpServer.on(
+  private async registerCreateParentController(): Promise<void> {
+    await this.httpServer.on(
       HTTPMethodTypes.POST,
       ParentsRoutes.CREATE,
       new CreateParentController(this.parentUseCaseFactory).handleRequest,
     )
   }
 
-  private registerGetParentController(): void {
-    this.httpServer.on(
+  private async registerGetParentController(): Promise<void> {
+    await this.httpServer.on(
       HTTPMethodTypes.GET,
       ParentsRoutes.GET,
       new GetParentController(this.parentUseCaseFactory).handleRequest,
     )
   }
 
-  private registerDeleteParentController(): void {
-    this.httpServer.on(
+  private async registerDeleteParentController(): Promise<void> {
+    await this.httpServer.on(
       HTTPMethodTypes.DELETE,
       ParentsRoutes.DELETE,
       new DeleteParentController(this.parentUseCaseFactory).handleRequest,
     )
   }
 
-  private registerUpdateParentController(): void {
-    this.httpServer.on(
+  private async registerUpdateParentController(): Promise<void> {
+    await this.httpServer.on(
       HTTPMethodTypes.PUT,
       ParentsRoutes.PUT,
       new UpdateParentController(this.parentUseCaseFactory).handleRequest,

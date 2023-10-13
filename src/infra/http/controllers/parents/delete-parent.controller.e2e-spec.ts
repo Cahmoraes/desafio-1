@@ -10,7 +10,7 @@ import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-d
 import { ParentsRoutes } from './parents-routes.enum'
 import { makeParamWithId } from '@/tests/utils/make-param-with-id'
 
-describe('Create Parent (e2e)', () => {
+describe('Delete Parent (e2e)', () => {
   let fastify: FastifyAdapter
   let testingFSDatabase: TestingFSDatabase
   const dummyParent: ParentProps = {
@@ -59,8 +59,6 @@ describe('Create Parent (e2e)', () => {
     const responseGetParent = await request(fastify.server).get(
       makeParamWithId(ParentsRoutes.GET, id),
     )
-
-    console.log(responseGetParent.body)
 
     // expect(responseGetParent.statusCode).toBe(500)
     // expect(responseGetParent.body).toMatchObject({
