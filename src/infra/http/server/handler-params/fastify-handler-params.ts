@@ -8,6 +8,7 @@ export class FastifyHandlerParams implements HandlerParams {
     return {
       body: this._request.body,
       params: this._request.params,
+      query: this._request.query,
     }
   }
 }
