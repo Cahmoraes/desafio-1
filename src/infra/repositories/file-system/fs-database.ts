@@ -1,4 +1,4 @@
-import { readFile, writeFile, access } from 'node:fs/promises'
+import { readFile, writeFile, access, unlink } from 'node:fs/promises'
 import { join } from 'path'
 
 export class FSDatabase {
@@ -80,5 +80,14 @@ export class FSDatabase {
 
   public async truncate(): Promise<void> {
     await writeFile(this._path, '[]', 'utf-8')
+  }
+
+  public async excludeFile() {
+    try {
+      await access(this._path)
+      await unlink(this._path)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

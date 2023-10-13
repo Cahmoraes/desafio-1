@@ -25,7 +25,7 @@ describe('Create Parent (e2e)', () => {
   beforeAll(async () => {
     const port = await getPort()
     fastify = new FastifyAdapter({ port })
-    testingFSDatabase = new TestingFSDatabase()
+    testingFSDatabase = new TestingFSDatabase(port)
     const parentsRepository = new FSParentsRepository(testingFSDatabase)
     const parentPresenter = new ParentPresenter()
     const parentUseCaseFactory = new ParentUseCaseFactory(
@@ -43,6 +43,7 @@ describe('Create Parent (e2e)', () => {
 
   afterAll(async () => {
     await fastify.close()
+    await testingFSDatabase.excludeFile()
   })
 
   test('Deve criar um Parent', async () => {
