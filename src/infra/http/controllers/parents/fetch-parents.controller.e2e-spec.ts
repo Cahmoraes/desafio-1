@@ -56,6 +56,6 @@ describe('Fetch Parents (e2e)', () => {
     )
 
     expect(responseFetchParents.statusCode).toBe(200)
-    console.log(responseFetchParents.body)
+    expect(responseFetchParents.body.parents).toHaveLength(3)
   })
 })
