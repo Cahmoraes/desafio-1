@@ -1,17 +1,19 @@
 import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
 import { StudentsRepository } from '@/application/repositories/students.repository'
 import { Student } from '@/domain/entities/student.entity'
+import { Presenter } from '@/infra/presenters/presenter'
 
 interface GetStudentUseCaseInput {
   studentId: string
 }
 
-interface GetStudentUseCaseOutput {
-  student: Student
-}
+type GetStudentUseCaseOutput = object
 
 export class GetStudentUseCase {
-  constructor(private readonly studentsRepository: StudentsRepository) {}
+  constructor(
+    private readonly studentsRepository: StudentsRepository,
+    private readonly studentPresenter: Presenter<Student>,
+  ) {}
 
   public async execute({
     studentId,
@@ -20,8 +22,6 @@ export class GetStudentUseCase {
     if (!student) {
       throw new ResourceNotFoundError(`Student of id [${studentId}] not found`)
     }
-    return {
-      student,
-    }
+    return this.studentPresenter.present(student)
   }
 }

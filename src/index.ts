@@ -1,7 +1,7 @@
 import { ParentUseCaseFactory } from './application/usecases/parents/factories/parent-usecase.factory'
 import { MainHttpController } from './infra/http/controllers/main-http.controller'
 import { FastifyAdapter } from './infra/http/server/fastify-adapter'
-import { ParentPresenter } from './infra/presenters/parent.presenter'
+import { ParentPresenter } from './infra/presenters/student.presenter'
 import { InMemoryParentsRepository } from './infra/repositories/in-memory/in-memory-parents.repository'
 import getPort from 'get-port'
 

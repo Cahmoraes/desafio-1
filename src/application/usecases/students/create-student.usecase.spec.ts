@@ -1,6 +1,7 @@
 import { CreateStudentUseCase } from './create-student.usecase'
 import { InMemoryStudentsRepository } from '@/infra/repositories/in-memory/in-memory-students.repository'
 import { StudentProps } from '@/domain/entities/student.entity'
+import { StudentPresenter } from '@/infra/presenters/student.presenter'
 
 describe('Create Student Use Case', () => {
   let sut: CreateStudentUseCase
@@ -19,7 +20,8 @@ describe('Create Student Use Case', () => {
 
   beforeEach(() => {
     studentsRepository = new InMemoryStudentsRepository()
-    sut = new CreateStudentUseCase(studentsRepository)
+    const studentPresenter = new StudentPresenter()
+    sut = new CreateStudentUseCase(studentsRepository, studentPresenter)
   })
 
   test('Deve criar um Student', async () => {

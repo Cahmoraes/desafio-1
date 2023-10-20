@@ -2,6 +2,7 @@ import { InMemoryStudentsRepository } from '@/infra/repositories/in-memory/in-me
 import { GetStudentUseCase } from './get-student.usecase'
 import { Student, StudentProps } from '@/domain/entities/student.entity'
 import { ResourceNotFoundError } from '@/application/errors/resource-not-found.error'
+import { StudentPresenter } from '@/infra/presenters/student.presenter'
 
 describe('Get Student Use Case', async () => {
   let sut: GetStudentUseCase
@@ -20,7 +21,7 @@ describe('Get Student Use Case', async () => {
 
   beforeEach(() => {
     studentsRepository = new InMemoryStudentsRepository()
-    sut = new GetStudentUseCase(studentsRepository)
+    sut = new GetStudentUseCase(studentsRepository, new StudentPresenter())
   })
 
   test('Deve listar Students', async () => {
@@ -29,9 +30,9 @@ describe('Get Student Use Case', async () => {
       studentsRepository.save(student)
     }
 
-    const { student } = await sut.execute({
+    const student = (await sut.execute({
       studentId: 'id-20',
-    })
+    })) as Student
 
     expect(student.id.toString()).toBe('id-20')
   })

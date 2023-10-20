@@ -2,7 +2,7 @@ import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/p
 import { MainHttpController } from '@/infra/http/controllers/main-http.controller'
 import { FastifyAdapter } from '@/infra/http/server/fastify-adapter'
 import { ParentPresenter } from '@/infra/presenters/parent.presenter'
-import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
+import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.repository'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import getPort from 'get-port'
 
