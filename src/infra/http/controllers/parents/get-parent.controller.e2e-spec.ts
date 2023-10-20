@@ -6,7 +6,7 @@ import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-d
 import { ParentsRoutes } from './parents-routes.enum'
 import { makeParamWithId } from '@/tests/utils/make-param-with-id'
 import { makeParent } from '@/tests/factories/make-parent'
-import { makeFastifyServerKit } from '@/tests/factories/make-fastify-adapter'
+import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
 
 describe('Get Parent (e2e)', () => {
   let fastify: FastifyAdapter
