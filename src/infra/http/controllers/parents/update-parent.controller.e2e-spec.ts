@@ -9,10 +9,14 @@ import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
 import { makeParamWithId } from '@/tests/utils/make-param-with-id'
+import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
+import { makeParent } from '@/tests/factories/make-parent'
+import { ParentMapper } from '@/application/mappers/parent.mapper'
 
 describe('Update Parent (e2e)', () => {
   let fastify: FastifyAdapter
   let testingFSDatabase: TestingFSDatabase
+  let parentsRepository: FSParentsRepository
   const dummyParent: ParentProps = {
     name: 'any_name',
     lastName: 'any_sobrenome',
@@ -23,21 +27,10 @@ describe('Update Parent (e2e)', () => {
   }
 
   beforeAll(async () => {
-    const port = await getPort()
-    fastify = new FastifyAdapter({ port })
-    testingFSDatabase = new TestingFSDatabase(port)
-    const parentsRepository = new FSParentsRepository(testingFSDatabase)
-    const parentPresenter = new ParentPresenter()
-    const parentUseCaseFactory = new ParentUseCaseFactory(
-      parentsRepository,
-      parentPresenter,
-    )
-    const mainHttpController = new MainHttpController(
-      fastify,
-      parentUseCaseFactory,
-    )
-
-    mainHttpController.init()
+    const fastifyServerKit = await makeFastifyServerKit()
+    fastify = fastifyServerKit.fastify
+    testingFSDatabase = fastifyServerKit.testingFSDatabase
+    parentsRepository = fastifyServerKit.parentsRepository
     await fastify.listen()
   })
 
@@ -47,15 +40,11 @@ describe('Update Parent (e2e)', () => {
   })
 
   test('Deve atualizar um Parent', async () => {
-    const createResponse = await request(fastify.server)
-      .post(ParentsRoutes.CREATE)
-      .send(dummyParent)
-
-    const { id } = createResponse.body
-    expect(createResponse.statusCode).toBe(200)
+    const parent = makeParent(dummyParent)
+    await parentsRepository.save(parent)
 
     const updateResponse = await request(fastify.server)
-      .put(makeParamWithId(ParentsRoutes.PUT, id))
+      .put(makeParamWithId(ParentsRoutes.PUT, parent.id.toString()))
       .send({
         name: 'change_name',
         lastName: 'change_sobrenome',
@@ -65,11 +54,20 @@ describe('Update Parent (e2e)', () => {
       })
 
     expect(updateResponse.statusCode).toBe(200)
-
-    const responseGetParent = await request(fastify.server).get(
-      makeParamWithId(ParentsRoutes.GET, id),
+    const updatedParent = await parentsRepository.parentOfId(
+      parent.id.toString(),
     )
 
-    expect(responseGetParent.statusCode).toBe(200)
+    console.dir(updatedParent, { depth: null })
+
+    expect(ParentMapper.toDto(updatedParent!)).toMatchObject({
+      id: parent?.id.toString(),
+      name: 'change_name',
+      lastName: 'change_sobrenome',
+      phones: ['111111111', '000000000'],
+      emails: ['any_email'],
+      address: ['change_address'],
+      cpf: dummyParent.cpf.toString(),
+    })
   })
 })
