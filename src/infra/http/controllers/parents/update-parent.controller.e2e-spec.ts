@@ -54,8 +54,6 @@ describe('Update Parent (e2e)', () => {
       parent.id.toString(),
     )
 
-    console.dir(updatedParent, { depth: null })
-
     expect(ParentMapper.toDto(updatedParent!)).toMatchObject({
       id: parent?.id.toString(),
       name: 'change_name',
