@@ -1,11 +1,11 @@
 import request from 'supertest'
 import { FastifyAdapter } from '../../server/fastify-adapter'
 import { ParentProps } from '@/domain/entities/parent.entity'
-import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
 import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
 import { ParentMapper } from '@/application/mappers/parent.mapper'
+import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.repository'
 
 describe('Create Parent (e2e)', () => {
   let fastify: FastifyAdapter

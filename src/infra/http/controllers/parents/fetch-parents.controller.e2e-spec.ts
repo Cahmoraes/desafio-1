@@ -3,8 +3,8 @@ import { FastifyAdapter } from '../../server/fastify-adapter'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
 import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
-import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 import { makeParent } from '@/tests/factories/make-parent'
+import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.repository'
 
 describe('Fetch Parents (e2e)', () => {
   let fastify: FastifyAdapter
