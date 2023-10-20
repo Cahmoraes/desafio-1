@@ -55,6 +55,7 @@ export class FSParentsRepository implements ParentsRepository {
     const persistedParent = await this.retry(() =>
       this.performParentOfId(aParentId),
     )
+    if (!persistedParent) return null
     return Parent.restore(persistedParent, persistedParent.id)
   }
 
