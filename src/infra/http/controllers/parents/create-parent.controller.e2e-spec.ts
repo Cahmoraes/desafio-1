@@ -9,10 +9,13 @@ import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
 import { makeParamWithId } from '@/tests/utils/make-param-with-id'
+import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
+import { ParentMapper } from '@/application/mappers/parent.mapper'
 
 describe('Create Parent (e2e)', () => {
   let fastify: FastifyAdapter
   let testingFSDatabase: TestingFSDatabase
+  let parentsRepository: FSParentsRepository
   const dummyParent: ParentProps = {
     name: 'any_name',
     lastName: 'any_sobrenome',
@@ -23,21 +26,10 @@ describe('Create Parent (e2e)', () => {
   }
 
   beforeAll(async () => {
-    const port = await getPort()
-    fastify = new FastifyAdapter({ port })
-    testingFSDatabase = new TestingFSDatabase(port)
-    const parentsRepository = new FSParentsRepository(testingFSDatabase)
-    const parentPresenter = new ParentPresenter()
-    const parentUseCaseFactory = new ParentUseCaseFactory(
-      parentsRepository,
-      parentPresenter,
-    )
-    const mainHttpController = new MainHttpController(
-      fastify,
-      parentUseCaseFactory,
-    )
-
-    mainHttpController.init()
+    const fastifyServerKit = await makeFastifyServerKit()
+    fastify = fastifyServerKit.fastify
+    testingFSDatabase = fastifyServerKit.testingFSDatabase
+    parentsRepository = fastifyServerKit.parentsRepository
     await fastify.listen()
   })
 
@@ -53,14 +45,10 @@ describe('Create Parent (e2e)', () => {
 
     expect(response.statusCode).toBe(200)
 
-    const { id } = response.body
-    const responseGetParent = await request(fastify.server).get(
-      makeParamWithId(ParentsRoutes.GET, id),
-    )
+    const parent = await parentsRepository.parentOfId(response.body.id)
 
-    expect(responseGetParent.statusCode).toBe(200)
-    expect(responseGetParent.body).toMatchObject({
-      id,
+    expect(ParentMapper.toDto(parent!)).toMatchObject({
+      id: parent?.id.toString(),
       name: dummyParent.name,
       lastName: dummyParent.lastName,
       phones: dummyParent.phones.map(String),
