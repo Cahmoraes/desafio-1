@@ -1,16 +1,12 @@
-import getPort from 'get-port'
 import request from 'supertest'
-import { MainHttpController } from '../main-http.controller'
-import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
-import { ParentPresenter } from '@/infra/presenters/parent.presenter'
 import { FastifyAdapter } from '../../server/fastify-adapter'
-import { Parent, ParentProps } from '@/domain/entities/parent.entity'
+import { ParentProps } from '@/domain/entities/parent.entity'
 import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
 import { makeParamWithId } from '@/tests/utils/make-param-with-id'
-import { ParentMapper } from '@/application/mappers/parent.mapper'
 import { makeParent } from '@/tests/factories/make-parent'
+import { makeFastifyServerKit } from '@/tests/factories/make-fastify-adapter'
 
 describe('Get Parent (e2e)', () => {
   let fastify: FastifyAdapter
@@ -26,21 +22,10 @@ describe('Get Parent (e2e)', () => {
   }
 
   beforeAll(async () => {
-    const port = await getPort()
-    fastify = new FastifyAdapter({ port })
-    testingFSDatabase = new TestingFSDatabase(port)
-    parentsRepository = new FSParentsRepository(testingFSDatabase)
-    const parentPresenter = new ParentPresenter()
-    const parentUseCaseFactory = new ParentUseCaseFactory(
-      parentsRepository,
-      parentPresenter,
-    )
-    const mainHttpController = new MainHttpController(
-      fastify,
-      parentUseCaseFactory,
-    )
-
-    mainHttpController.init()
+    const httpServerKit = await makeFastifyServerKit()
+    fastify = httpServerKit.fastify
+    testingFSDatabase = httpServerKit.testingFSDatabase
+    parentsRepository = httpServerKit.parentsRepository
     await fastify.listen()
   })
 
@@ -57,7 +42,6 @@ describe('Get Parent (e2e)', () => {
       makeParamWithId(ParentsRoutes.GET, parent.id.toString()),
     )
 
-    console.log(responseGetParent.body)
     expect(responseGetParent.statusCode).toBe(200)
     expect(responseGetParent.body).toMatchObject({
       id: parent.id.toString(),
