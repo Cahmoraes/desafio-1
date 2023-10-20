@@ -82,7 +82,7 @@ export class FSDatabase {
     await writeFile(this._path, '[]', 'utf-8')
   }
 
-  public async excludeFile() {
+  public async excludeFile(): Promise<void> {
     try {
       await access(this._path)
       await unlink(this._path)
