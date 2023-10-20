@@ -1,42 +1,21 @@
-import getPort from 'get-port'
 import request from 'supertest'
-import { MainHttpController } from '../main-http.controller'
-import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
-import { ParentPresenter } from '@/infra/presenters/parent.presenter'
 import { FastifyAdapter } from '../../server/fastify-adapter'
-import { ParentProps } from '@/domain/entities/parent.entity'
-import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
+import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
+import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
+import { makeParent } from '@/tests/factories/make-parent'
 
 describe('Fetch Parents (e2e)', () => {
   let fastify: FastifyAdapter
   let testingFSDatabase: TestingFSDatabase
-  const dummyParent: ParentProps = {
-    name: 'any_name',
-    lastName: 'any_sobrenome',
-    phones: ['0123456789', '1234567890'],
-    emails: ['any_email'],
-    address: ['any_address'],
-    cpf: 'any_cpf',
-  }
+  let parentsRepository: FSParentsRepository
 
   beforeAll(async () => {
-    const port = await getPort()
-    fastify = new FastifyAdapter({ port })
-    testingFSDatabase = new TestingFSDatabase(port)
-    const parentsRepository = new FSParentsRepository(testingFSDatabase)
-    const parentPresenter = new ParentPresenter()
-    const parentUseCaseFactory = new ParentUseCaseFactory(
-      parentsRepository,
-      parentPresenter,
-    )
-    const mainHttpController = new MainHttpController(
-      fastify,
-      parentUseCaseFactory,
-    )
-
-    mainHttpController.init()
+    const fastifyServerKit = await makeFastifyServerKit()
+    fastify = fastifyServerKit.fastify
+    testingFSDatabase = fastifyServerKit.testingFSDatabase
+    parentsRepository = fastifyServerKit.parentsRepository
     await fastify.listen()
   })
 
@@ -46,9 +25,9 @@ describe('Fetch Parents (e2e)', () => {
   })
 
   test('Deve criar um Parent', async () => {
-    await request(fastify.server).post(ParentsRoutes.CREATE).send(dummyParent)
-    await request(fastify.server).post(ParentsRoutes.CREATE).send(dummyParent)
-    await request(fastify.server).post(ParentsRoutes.CREATE).send(dummyParent)
+    await parentsRepository.save(makeParent())
+    await parentsRepository.save(makeParent())
+    await parentsRepository.save(makeParent())
 
     const responseFetchParents = await request(fastify.server).get(
       `${ParentsRoutes.FETCH}?page=1`,
