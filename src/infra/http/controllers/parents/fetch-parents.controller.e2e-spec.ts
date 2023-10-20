@@ -28,11 +28,9 @@ describe('Fetch Parents (e2e)', () => {
     await parentsRepository.save(makeParent())
     await parentsRepository.save(makeParent())
     await parentsRepository.save(makeParent())
-
     const responseFetchParents = await request(fastify.server).get(
       `${ParentsRoutes.FETCH}?page=1`,
     )
-
     expect(responseFetchParents.statusCode).toBe(200)
     expect(responseFetchParents.body.parents).toHaveLength(3)
   })
