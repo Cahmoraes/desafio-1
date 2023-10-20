@@ -1,8 +1,4 @@
-import getPort from 'get-port'
 import request from 'supertest'
-import { MainHttpController } from '../main-http.controller'
-import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
-import { ParentPresenter } from '@/infra/presenters/parent.presenter'
 import { FastifyAdapter } from '../../server/fastify-adapter'
 import { ParentProps } from '@/domain/entities/parent.entity'
 import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.respitory'
