@@ -1,8 +1,8 @@
-import { ParentUseCaseFactory } from '@/application/usecases/parents/factories/parent-usecase.factory'
+import { StudentUseCaseFactory } from '@/application/usecases/students/factories/student-usecase.factory'
 import { HandlerParams } from '../../server/handler-params/handler-params'
 
-export class CreateParentController {
-  constructor(private readonly parentUseCaseFactory: ParentUseCaseFactory) {
+export class CreateStudentController {
+  constructor(private readonly studentUseCaseFactory: StudentUseCaseFactory) {
     this.bindMethod()
   }
 
@@ -11,9 +11,9 @@ export class CreateParentController {
   }
 
   public async handleRequest({ request }: HandlerParams) {
-    const createParentUseCase =
-      this.parentUseCaseFactory.createCreateParentUseCase()
+    const createStudentUseCase =
+      this.studentUseCaseFactory.createCreateStudentUseCase()
     const body = request.body as any
-    return createParentUseCase.execute(body)
+    return createStudentUseCase.execute(body)
   }
 }
