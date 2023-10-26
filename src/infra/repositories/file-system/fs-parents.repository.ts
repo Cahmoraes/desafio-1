@@ -17,7 +17,6 @@ export class FSParentsRepository implements ParentsRepository {
   }
 
   async update(aParent: Parent): Promise<void> {
-    console.log('update', aParent.name)
     const persistedParent: any = await this.retry(() =>
       this.performParentOfId(aParent.id.toString()),
     )

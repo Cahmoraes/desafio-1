@@ -1,8 +1,8 @@
 export const StudentsRoutes = {
   CREATE: '/students',
-  GET: '/students/:parentId',
-  DELETE: '/students/:parentId',
-  PUT: '/students/:parentId',
+  GET: '/students/:studentId',
+  DELETE: '/students/:studentId',
+  PUT: '/students/:studentId',
   FETCH: '/students',
 } as const
 

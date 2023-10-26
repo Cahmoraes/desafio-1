@@ -17,7 +17,6 @@ export class FSStudentsRepository implements StudentsRepository {
   }
 
   async update(aStudent: Student): Promise<void> {
-    console.log('update', aStudent.name)
     const persistedStudent: any = await this.retry(() =>
       this.performStudentOfId(aStudent.id.toString()),
     )

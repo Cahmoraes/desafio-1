@@ -3,7 +3,7 @@ import { FastifyAdapter } from '../../server/fastify-adapter'
 import { Parent, ParentProps } from '@/domain/entities/parent.entity'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
-import { makeParamWithId } from '@/tests/utils/make-param-with-id'
+import { makeParentParamWithId } from '@/tests/utils/make-param-with-id'
 import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
 import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.repository'
 
@@ -38,7 +38,7 @@ describe('Delete Parent (e2e)', () => {
     await parentsRepository.save(parent)
 
     const response = await request(fastify.server)
-      .delete(makeParamWithId(ParentsRoutes.DELETE, parent.id.toString()))
+      .delete(makeParentParamWithId(ParentsRoutes.DELETE, parent.id.toString()))
       .send(dummyParent)
     expect(response.statusCode).toBe(200)
 

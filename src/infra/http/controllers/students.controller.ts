@@ -2,6 +2,7 @@ import { StudentUseCaseFactory } from '@/application/usecases/students/factories
 import { HTTPMethodTypes, HttpServer } from '../server/http-server'
 import { StudentsRoutes } from './students/students-routes.enum'
 import { CreateStudentController } from './students/create-student.controller'
+import { DeleteStudentController } from './students/delete-student.controller'
 
 export class StudentsController {
   constructor(
@@ -11,6 +12,7 @@ export class StudentsController {
 
   public init(): void {
     this.registerCreateStudentController()
+    this.registerDeleteStudentController()
   }
 
   private registerCreateStudentController(): void {
@@ -18,6 +20,14 @@ export class StudentsController {
       HTTPMethodTypes.POST,
       StudentsRoutes.CREATE,
       new CreateStudentController(this.studentUseCaseFactory).handleRequest,
+    )
+  }
+
+  private registerDeleteStudentController(): void {
+    this.httpServer.on(
+      HTTPMethodTypes.DELETE,
+      StudentsRoutes.DELETE,
+      new DeleteStudentController(this.studentUseCaseFactory).handleRequest,
     )
   }
 }

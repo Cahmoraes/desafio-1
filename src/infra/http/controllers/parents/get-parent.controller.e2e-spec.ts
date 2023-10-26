@@ -3,7 +3,7 @@ import { FastifyAdapter } from '../../server/fastify-adapter'
 import { ParentProps } from '@/domain/entities/parent.entity'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
-import { makeParamWithId } from '@/tests/utils/make-param-with-id'
+import { makeParentParamWithId } from '@/tests/utils/make-param-with-id'
 import { makeParent } from '@/tests/factories/make-parent'
 import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
 import { FSParentsRepository } from '@/infra/repositories/file-system/fs-parents.repository'
@@ -39,7 +39,7 @@ describe('Get Parent (e2e)', () => {
     await parentsRepository.save(parent)
 
     const responseGetParent = await request(fastify.server).get(
-      makeParamWithId(ParentsRoutes.GET, parent.id.toString()),
+      makeParentParamWithId(ParentsRoutes.GET, parent.id.toString()),
     )
 
     expect(responseGetParent.statusCode).toBe(200)

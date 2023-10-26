@@ -3,7 +3,7 @@ import { FastifyAdapter } from '../../server/fastify-adapter'
 import { ParentProps } from '@/domain/entities/parent.entity'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { ParentsRoutes } from './parents-routes.enum'
-import { makeParamWithId } from '@/tests/utils/make-param-with-id'
+import { makeParentParamWithId } from '@/tests/utils/make-param-with-id'
 import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
 import { makeParent } from '@/tests/factories/make-parent'
 import { ParentMapper } from '@/application/mappers/parent.mapper'
@@ -40,7 +40,7 @@ describe('Update Parent (e2e)', () => {
     await parentsRepository.save(parent)
 
     const updateResponse = await request(fastify.server)
-      .put(makeParamWithId(ParentsRoutes.PUT, parent.id.toString()))
+      .put(makeParentParamWithId(ParentsRoutes.PUT, parent.id.toString()))
       .send({
         name: 'change_name',
         lastName: 'change_sobrenome',
