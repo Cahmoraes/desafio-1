@@ -1,11 +1,12 @@
 import request from 'supertest'
 import { FastifyAdapter } from '../../server/fastify-adapter'
-import { Student, StudentProps } from '@/domain/entities/student.entity'
+import { StudentProps } from '@/domain/entities/student.entity'
 import { TestingFSDatabase } from '@/infra/repositories/file-system/testing-fs-database'
 import { StudentsRoutes } from './students-routes.enum'
 import { makeStudentParamWithId } from '@/tests/utils/make-param-with-id'
 import { makeFastifyServerKit } from '@/tests/factories/make-fastify-server-kit'
 import { FSStudentsRepository } from '@/infra/repositories/file-system/fs-students.repository'
+import { makeStudent } from '@/tests/factories/make-student'
 
 describe('Delete Student (e2e)', () => {
   let fastify: FastifyAdapter
@@ -37,7 +38,7 @@ describe('Delete Student (e2e)', () => {
   })
 
   test('Deletar criar um Student', async () => {
-    const student = Student.create(dummyStudent)
+    const student = makeStudent(dummyStudent)
     await studentsRepository.save(student)
 
     const response = await request(fastify.server)
@@ -46,7 +47,6 @@ describe('Delete Student (e2e)', () => {
       )
       .send(dummyStudent)
 
-    console.log(response.body)
     expect(response.statusCode).toBe(200)
 
     const deletedStudent = await studentsRepository.studentOfId(
