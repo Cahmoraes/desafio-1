@@ -24,7 +24,7 @@ describe('Get Parent (e2e)', () => {
   beforeAll(async () => {
     const httpServerKit = await makeFastifyServerKit()
     fastify = httpServerKit.fastify
-    testingFSDatabase = httpServerKit.testingFSDatabase
+    testingFSDatabase = httpServerKit.parentsTestingFSDatabase
     parentsRepository = httpServerKit.parentsRepository
     await fastify.listen()
   })

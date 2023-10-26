@@ -23,7 +23,7 @@ describe('Delete Parent (e2e)', () => {
   beforeAll(async () => {
     const fastifyServerKit = await makeFastifyServerKit()
     fastify = fastifyServerKit.fastify
-    testingFSDatabase = fastifyServerKit.testingFSDatabase
+    testingFSDatabase = fastifyServerKit.parentsTestingFSDatabase
     parentsRepository = fastifyServerKit.parentsRepository
     await fastify.listen()
   })

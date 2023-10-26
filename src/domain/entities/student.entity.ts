@@ -60,6 +60,10 @@ export class Student
     )
   }
 
+  public static restore(props: StudentProps, anId: string): Student {
+    return Student.create(props, anId)
+  }
+
   private static validate(props: StudentProps): void {
     if (!props.firstName.length) {
       throw new RequiredFieldError('firstName is required')
