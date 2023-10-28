@@ -45,7 +45,6 @@ export class FSParentsRepository implements ParentsRepository {
       address: aParent.address.map(String),
       cpf: aParent.cpf.toString(),
     })
-    await this.parentOfId(aParent.id.toString())
   }
 
   async delete(aParent: Parent): Promise<void> {

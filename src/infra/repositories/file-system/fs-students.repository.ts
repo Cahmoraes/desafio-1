@@ -38,16 +38,17 @@ export class FSStudentsRepository implements StudentsRepository {
 
   private async performUpdate(aStudent: Student): Promise<void> {
     await this.database.update(aStudent.id.toString(), {
-      name: aStudent.name,
+      firstName: aStudent.name,
       lastName: aStudent.lastName,
       allergies: aStudent.allergies.map(String),
       birthDay: aStudent.birthDay,
       blood: aStudent.blood,
       classRoom: aStudent.classRoom?.toString(),
-      medication: aStudent.medication.map(String),
+      medication: aStudent.medication?.map(String),
+      registrationDate: aStudent.registrationDate,
       cpf: aStudent.cpf.toString(),
+      parentId: aStudent.parentId?.toString(),
     })
-    await this.studentOfId(aStudent.id.toString())
   }
 
   async delete(aStudent: Student): Promise<void> {

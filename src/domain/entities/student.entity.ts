@@ -45,8 +45,16 @@ export class Student
     anIdOrString?: UniqueEntityId | string,
   ): Student {
     this.validate(props)
-    const { firstName, lastName, cpf, blood, allergies, medication, ...rest } =
-      props
+    const {
+      firstName,
+      lastName,
+      cpf,
+      blood,
+      allergies,
+      medication,
+      parentId,
+      ...rest
+    } = props
     return new Student(
       {
         ...rest,
@@ -55,6 +63,7 @@ export class Student
         blood: Bloody.create(blood),
         allergies: allergies.map(Allergy.create),
         medication: medication.map(Medication.create),
+        parentId,
       },
       new UniqueEntityId(anIdOrString),
     )
