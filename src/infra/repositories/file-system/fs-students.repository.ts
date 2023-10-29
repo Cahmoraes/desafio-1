@@ -17,8 +17,8 @@ export class FSStudentsRepository implements StudentsRepository {
   }
 
   async update(aStudent: Student): Promise<void> {
-    const persistedStudent: any = await this.retry(() =>
-      this.performStudentOfId(aStudent.id.toString()),
+    const persistedStudent: any = await this.performStudentOfId(
+      aStudent.id.toString(),
     )
     if (!persistedStudent) throw new Error('Student not exists')
     await this.performUpdate(aStudent)
@@ -56,9 +56,7 @@ export class FSStudentsRepository implements StudentsRepository {
   }
 
   async studentOfId(aStudentId: string): Promise<Student | null> {
-    const persistedStudent = await this.retry(() =>
-      this.performStudentOfId(aStudentId),
-    )
+    const persistedStudent: any = await this.performStudentOfId(aStudentId)
     if (!persistedStudent) return null
     return Student.restore(persistedStudent, persistedStudent.id)
   }

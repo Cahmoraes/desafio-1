@@ -17,8 +17,8 @@ export class FSParentsRepository implements ParentsRepository {
   }
 
   async update(aParent: Parent): Promise<void> {
-    const persistedParent: any = await this.retry(() =>
-      this.performParentOfId(aParent.id.toString()),
+    const persistedParent: any = await this.performParentOfId(
+      aParent.id.toString(),
     )
     if (!persistedParent) throw new Error('Parent not exists')
     await this.performUpdate(aParent)
@@ -52,9 +52,7 @@ export class FSParentsRepository implements ParentsRepository {
   }
 
   async parentOfId(aParentId: string): Promise<Parent | null> {
-    const persistedParent = await this.retry(() =>
-      this.performParentOfId(aParentId),
-    )
+    const persistedParent: any = await this.performParentOfId(aParentId)
     if (!persistedParent) return null
     return Parent.restore(persistedParent, persistedParent.id)
   }
